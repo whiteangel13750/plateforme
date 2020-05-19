@@ -26,6 +26,14 @@ switch($route) {
         break;
     case "connect_user" : connectUser();
         break;
+    case "membre" : $view = showMembre();
+        break;
+    case "insert_comment" : insertComment();
+        break;
+    case "update_comment" : updateComment();
+        break; 
+    case "delete_comment" : deleteComment();
+        break;   
     case "deconnect" : deconnectUser();
         break;
     default : $view= showHome();
@@ -37,6 +45,12 @@ function showHome() {
             }       
             $datas = [];
             return ["template" => "home.html", "datas" => $datas];
+}
+
+function showMembre() {
+
+    $datas = [];
+    return ["template" => "monespace.php", "datas" => $datas];
 }
 
 function insertUser() {
@@ -77,9 +91,10 @@ function connectUser() {
         $reponse = $user->selectByPseudo();
         if ($reponse && password_verify($_POST['password'],$reponse['password'])){
             $_SESSION['id'] = $reponse['id_user'];
+            $_SESSION['role']= $reponse['role'];
             $_SESSION['pseudo']= $reponse['pseudo'];
             $_SESSION['password']=$reponse['password'];
-            header('Location:monespace.php');
+            header('Location:index.php?route=membre');
         }else {
             header('Location:index.php');
         }
@@ -90,6 +105,29 @@ function deconnectUser() {
     unset($_SESSION['pseudo']);
     header('Location:index.php');
         }
+
+function insertComment() {
+            if(!empty($_POST['description'])){
+               $user = new Commentaire();
+               $user-> setIdUtilisateur($_SESSION['id']);
+               $user-> setDescription($_POST['description']);
+               var_dump($_POST);
+               $user->insert();
+            //    header('Location:monespace.php');
+               }
+       }
+   
+       function updateComment() {
+           $user = new Commentaire();
+           $user->update();
+           return "updatecommentaire.php";
+               }
+   
+       function deleteCommentaire() {
+               $user = new Commentaire();
+               $user->delete();
+                       }
+   
         
 ?>
 
