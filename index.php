@@ -113,7 +113,7 @@ function insertComment() {
                $user-> setDescription($_POST['description']);
                var_dump($_POST);
                $user->insert();
-            //    header('Location:monespace.php');
+               header('Location:index.php');
                }
        }
    

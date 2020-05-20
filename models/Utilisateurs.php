@@ -115,8 +115,9 @@ public function selectAll(){
 // Permet de selectionner un utilisateurs dans la base de donnée. 
     
 public function select(){
-    $query2 = "SELECT * FROM users WHERE id_user = $this->idUtilisateur;";
+    $query2 = "SELECT * FROM users WHERE id_user = :id;";
     $result2 = $this->pdo->prepare($query2);
+    $result2->bindValue(':id',$this->idUtilisateur,PDO::PARAM_INT);
     $result2->execute();
     $data2 = $result2->fetch();
             //appel aux setters de l'objet
@@ -124,8 +125,9 @@ public function select(){
     }
 
     public function selectByPseudo(){
-        $query2 = "SELECT * FROM users WHERE pseudo = '$this->pseudo';";
+        $query2 = "SELECT * FROM users WHERE pseudo = :pseudo;";
         $result2 = $this->pdo->prepare($query2);
+        $result2->bindValue(':pseudo',$this->pseudo,PDO::PARAM_STR);
         $result2->execute();
         $data2 = $result2->fetch();
                 //appel aux setters de l'objet

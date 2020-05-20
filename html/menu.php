@@ -13,7 +13,7 @@
                 <div class="top-bar-left">
                   <ul class="dropdown menu" data-dropdown-menu>
                     <li class="menu-text"><li><a href="#">Accueil</a></li>
-            <li><a href="">Mes cours</a></li>
+            <li><a href="html\mescours.php">Mes cours</a></li>
             <li><a href="">Agenda Perso</a></li>
             <li><a href="">Suivi</a></li>
             <li><a href="">Reseau social</a></li>

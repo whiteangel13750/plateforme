@@ -70,8 +70,9 @@ public function selectAll(){
 
 // Permet de selectionner une tache dans la base de donnée. 
 public function select(){
-    $query2 = "SELECT * FROM comments WHERE ID_COMMENT = $this->idComment;";
+    $query2 = "SELECT * FROM comments WHERE ID_COMMENT = ':idcomment';";
     $result2 = $this->pdo->prepare($query2);
+    $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
     $result2->execute();
     $data2 = $result2->fetch();
             //appel aux setters de l'objet
@@ -80,16 +81,18 @@ public function select(){
 
 // Permet de modifier une tache dans la base de donnée. 
     public function update(){
-            $query ="UPDATE * FROM comments WHERE ID_COMMENT = $this->idComment;";
+            $query ="UPDATE * FROM comments WHERE ID_COMMENT = ':idcomment';";
             $result = $this->pdo->prepare($query);
+            $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
             $result->execute();
                 return $this;
     }
 
 // Permet de supprimer une tache dans la base de donnée. 
     public function delete(){
-        $query ="DELETE * FROM comments WHERE ID_COMMENT = $this->idComment;";
+        $query ="DELETE * FROM comments WHERE ID_COMMENT = ':idcomment';";
     $result = $this->pdo->prepare($query);
+    $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
     $result->execute();
         return $this;
     }
