@@ -11,6 +11,5 @@ if ($_SESSION['role'] == 'Enfant'){
 
 require "html/menu.php";
 
-
 ?>
 
