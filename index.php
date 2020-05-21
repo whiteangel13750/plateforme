@@ -30,10 +30,6 @@ switch($route) {
         break;
     case "insert_comment" : insertComment();
         break;
-    case "update_comment" : updateComment();
-        break; 
-    case "delete_comment" : deleteComment();
-        break;   
     case "deconnect" : deconnectUser();
         break;
     default : $view= showHome();
@@ -113,7 +109,7 @@ function insertComment() {
                $user-> setDescription($_POST['description']);
                var_dump($_POST);
                $user->insert();
-               header('Location:index.php');
+               header('Location:mescours.php');
                }
        }
    
