@@ -26,10 +26,21 @@ switch($route) {
         break;
     case "connect_user" : connectUser();
         break;
+    case "update_user" : updateUser();
+    break; 
+    case "delete_user" : deleteUser();
+    break; 
     case "membre" : $view = showMembre();
         break;
-    case "insert_comment" : insertComment();
+    case 'insert_comment' : $view=insertComment();
         break;
+    case "comment" : $view = showComment();
+        break;
+    case "update_comment" : updateComment();
+        break; 
+    case "delete_comment" : deleteComment();
+        break; 
+
     case "deconnect" : deconnectUser();
         break;
     default : $view= showHome();
@@ -48,6 +59,12 @@ function showMembre() {
     $datas = [];
     return ["template" => "monespace.php", "datas" => $datas];
 }
+
+function showComment() {
+    $datas = [];
+    return ["template" => "mescours.html", "datas" => $datas];
+}
+
 
 function insertUser() {
     var_dump($_POST);
@@ -103,27 +120,19 @@ function deconnectUser() {
         }
 
 function insertComment() {
-            if(!empty($_POST['description'])){
-               $user = new Commentaire();
-               $user-> setIdUtilisateur($_SESSION['id']);
-               $user-> setDescription($_POST['description']);
-               var_dump($_POST);
-               $user->insert();
-               header('Location:mescours.php');
-               }
-       }
-   
-       function updateComment() {
-           $user = new Commentaire();
-           $user->update();
-           return "updatecommentaire.php";
-               }
-   
-       function deleteCommentaire() {
-               $user = new Commentaire();
-               $user->delete();
-                       }
-   
+    var_dump($_SESSION);
+    header('Location:index.php?route=comment');
+    if(!empty($_POST['description'])){
+        $user = new Commentaire();
+        $user-> setIdUtilisateur($_SESSION['id']);
+        $user-> setDescription($_POST['description']);
+        $user->insert();
+        var_dump($user);
+    } 
+};
+
+function updateUser(){}
+function deleteUser(){}
         
 ?>
 

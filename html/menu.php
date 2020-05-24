@@ -13,7 +13,7 @@
                 <div class="top-bar-left">
                   <ul class="dropdown menu" data-dropdown-menu>
                     <li class="menu-text"><li><a href="#">Accueil</a></li>
-            <li><a href="html\mescours.php">Mes cours</a></li>
+            <li><a href="index.php?route=insert_comment">Mes cours</a></li>
             <li><a href="">Agenda Perso</a></li>
             <li><a href="">Suivi</a></li>
             <li><a href="">Reseau social</a></li>
@@ -38,9 +38,8 @@
 
     <section class="categories">
         <div class="grid-x grid-padding-x">
-            <p class="cell medium-6 large-2"><img src="img\1.jpg" alt="Mes cours" data-toggle="exampleModal">Mes cours
+            <p class="cell medium-6 large-2"><img src="img\1.jpg" alt="Mes cours" data-toggle="exampleModal"><a href="index.php?route=insert_comment">Mes cours</a>
             <div class="img" id="exampleModal" data-reveal>
-            <button class="close-button" data-close aria-label="Close reveal" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
           </div>

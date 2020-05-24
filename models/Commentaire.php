@@ -1,7 +1,7 @@
 <?php
 
 // On requiert le fichier utilisateurs.php pour permettre d'ajouter les informations utilisateurs à nos taches
-require 'utilisateurs.php';
+require 'Utilisateurs.php';
 
 // La classe instancie une nouvelle tache. Elle est liée à DbConnect qui permet de lier la base de donnée à la classe. 
 // Elle requiert les méthodes afin d'agrémenter la base
