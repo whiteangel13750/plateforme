@@ -39,28 +39,10 @@
     <section class="categories">
         <div class="grid-x grid-padding-x">
             <p class="cell medium-6 large-2"><img src="img\1.jpg" alt="Mes cours" data-toggle="exampleModal"><a href="index.php?route=insert_comment">Mes cours</a>
-            <div class="img" id="exampleModal" data-reveal>
-                <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
             <p class="cell medium-6 large-2"><img src="img\2.jpg" alt="" data-toggle="exampleModal1"> Mes documents
-              <div class="img" id="exampleModal1" data-reveal>
-              <button class="close-button" data-close aria-label="Close reveal" type="button">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
             <p class="cell medium-6 large-2"><img src="img\3.jpg" alt="" data-toggle="exampleModal2"> Mon agenda
-              <div class="img" id="exampleModal2" data-reveal>
-              <button class="close-button" data-close aria-label="Close reveal" type="button">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
             <p class="cell medium-6 large-2"><img src="img\4.jpg" alt="" data-toggle="exampleModal3"> Mes ressources
-              <div class="img" id="exampleModal3" data-reveal>
-              <button class="close-button" data-close aria-label="Close reveal" type="button">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+        </div>
                 <?php if ($_SESSION['role'] == 'Enfant'){
                 require "html/bodyeleve.html";
 

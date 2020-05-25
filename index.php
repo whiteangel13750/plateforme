@@ -62,7 +62,16 @@ function showMembre() {
 
 function showComment() {
     $datas = [];
-    return ["template" => "mescours.html", "datas" => $datas];
+    $comment = new Commentaire();
+    $datas["comment"]= $comment->selectAll();
+    foreach($datas["comment"] as &$com){
+    $utilisateur = new Utilisateurs();
+    $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
+    $user= $utilisateur->select();
+    $com->user = $user;
+
+    }
+    return ["template" => "mescours.php", "datas" => $datas];
 }
 
 
@@ -79,16 +88,17 @@ $user-> setPrenom($_POST['prenom']);
 $user-> setAdresse($_POST['adresse']);
 $user-> setPseudo($_POST['pseudo']);
 $user-> setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
+$reponse = $user->selectByPseudo();
 var_dump($user);
-$user->insert();
-$role= isset($_POST['role'])? $_POST['role'] : "null";
-$nom= isset($_POST['nom'])? $_POST['nom'] : "null";
-$prenom= isset($_POST['prenom'])? $_POST['prenom'] : "null";
-$adresse= isset($_POST['adresse'])? $_POST['adresse'] : "null";
-$pseudo= isset($_POST['pseudo'])? $_POST['pseudo'] : "null";
-$password= isset($_POST['password'])? $_POST['password'] : "null";
-$_SESSION['pseudo']=$pseudo;
-$_SESSION['password']=$password;
+        $user->insert();
+        $role= isset($_POST['role'])? $_POST['role'] : "null";
+        $nom= isset($_POST['nom'])? $_POST['nom'] : "null";
+        $prenom= isset($_POST['prenom'])? $_POST['prenom'] : "null";
+        $adresse= isset($_POST['adresse'])? $_POST['adresse'] : "null";
+        $pseudo= isset($_POST['pseudo'])? $_POST['pseudo'] : "null";
+        $password= isset($_POST['password'])? $_POST['password'] : "null";
+        $_SESSION['pseudo']=$pseudo;
+        $_SESSION['password']=$password;
 }
 header('Location:index.php');
 }else {
@@ -121,7 +131,6 @@ function deconnectUser() {
 
 function insertComment() {
     var_dump($_SESSION);
-    header('Location:index.php?route=comment');
     if(!empty($_POST['description'])){
         $user = new Commentaire();
         $user-> setIdUtilisateur($_SESSION['id']);
@@ -129,9 +138,20 @@ function insertComment() {
         $user->insert();
         var_dump($user);
     } 
-};
+    header('Location:index.php?route=comment');
+}
 
-function updateUser(){}
+function updateComment(){
+    $user = new Commentaire();
+    $user-> setIdUtilisateur($_SESSION['id']);
+    $user-> setIdComment($_SESSION['id']);
+    $user-> setDescription($user->getDescription());
+    var_dump($user);
+    $user->update();
+    var_dump($user);
+    header('Location:index.php?route=comment');
+}
+
 function deleteUser(){}
         
 ?>
@@ -141,7 +161,7 @@ function deleteUser(){}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css\app.css">
+    <link rel="stylesheet" type="text/css" href="css\style.css">
     <title>La Plateforme</title>
 </head>
 <body>

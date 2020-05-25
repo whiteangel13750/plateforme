@@ -22,7 +22,7 @@ class Commentaire extends Dbconnect {
         $this->idUtilisateur = $id;
     }
 
-    public function getDescription($description) {
+    public function getDescription() {
         return $this->description;
     }
     
@@ -61,7 +61,9 @@ public function selectAll(){
 
         foreach($datas as $data) {
             $current = new Commentaire();
-            $current->setId($data['ID_COMMENT']);
+            $current->setIdUtilisateur($data['ID_USER']);
+            $current->setIdComment($data['ID_COMMENT']);
+            $current->setDescription($data['DESCRIPTION']);
             array_push($tab, $current);
             }
             return $tab;
@@ -83,7 +85,7 @@ public function select(){
     public function update(){
             $query ="UPDATE * FROM comments WHERE ID_COMMENT = ':idcomment';";
             $result = $this->pdo->prepare($query);
-            $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
+            $result->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
             $result->execute();
                 return $this;
     }
@@ -92,7 +94,7 @@ public function select(){
     public function delete(){
         $query ="DELETE * FROM comments WHERE ID_COMMENT = ':idcomment';";
     $result = $this->pdo->prepare($query);
-    $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
+    $result->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
     $result->execute();
         return $this;
     }

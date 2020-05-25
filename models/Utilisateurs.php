@@ -26,7 +26,7 @@ class Utilisateurs extends Dbconnect {
         $this->idUtilisateur = $id;
     }
 
-    public function getRole($role) {
+    public function getRole() {
      return $this->role;
  }
  
@@ -34,7 +34,7 @@ class Utilisateurs extends Dbconnect {
      $this->role = $role;
  }
 
- public function getNom($nom) {
+ public function getNom() {
      return $this->nom;
  }
  
@@ -42,7 +42,7 @@ class Utilisateurs extends Dbconnect {
      $this->nom = $nom;
  }
 
- public function getPrenom($prenom) {
+ public function getPrenom() {
      return $this->prenom;
  }
  
@@ -50,7 +50,7 @@ class Utilisateurs extends Dbconnect {
      $this->prenom = $prenom;
  }
 
-    public function getAdresse($adresse) {
+    public function getAdresse() {
         return $this->adresse;
     }
     
@@ -59,7 +59,7 @@ class Utilisateurs extends Dbconnect {
     }
 
     
-    public function getPseudo($pseudo) {
+    public function getPseudo() {
         return $this->pseudo;
     }
     
@@ -67,7 +67,7 @@ class Utilisateurs extends Dbconnect {
         $this->pseudo = $pseudo;
     }
 
-    public function getPassword($password) {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -120,7 +120,12 @@ public function select(){
     $result2->bindValue(':id',$this->idUtilisateur,PDO::PARAM_INT);
     $result2->execute();
     $data2 = $result2->fetch();
-            //appel aux setters de l'objet
+    $this->nom = $data2["nom"];
+    $this->prenom = $data2["prenom"];
+    $this->pseudo = $data2["pseudo"];
+    $this->password = $data2["password"];
+    $this->adresse = $data2["adresse_email"];
+    $this->role = $data2["role"];
         return $this;
     }
 
@@ -130,7 +135,6 @@ public function select(){
         $result2->bindValue(':pseudo',$this->pseudo,PDO::PARAM_STR);
         $result2->execute();
         $data2 = $result2->fetch();
-                //appel aux setters de l'objet
          return $data2;
         }
 
