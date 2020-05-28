@@ -159,6 +159,7 @@ public function select(){
 
 // Permet de supprimer un utilisateur dans la base de donnée. 
     public function delete(){
+    var_dump($this);
         $query ="DELETE FROM `users` WHERE ID_USER = :iduser";
     $result = $this->pdo->prepare($query);
     $result->bindValue(':iduser',$this->idUtilisateur,PDO::PARAM_INT);

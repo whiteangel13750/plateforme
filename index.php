@@ -101,6 +101,14 @@ function showUser() {
         $us->user = $user;
     }
 
+    foreach($datas["user"] as &$com){
+        $com->setPseudo(htmlspecialchars($com->getPseudo()));
+        $com->setPassword(htmlspecialchars($com->getPassword()));
+        $com->setNom(htmlspecialchars($com->getNom()));
+        $com->setPrenom(htmlspecialchars($com->getPrenom()));
+        $com->setAdresse(htmlspecialchars($com->getAdresse()));
+    }
+
     return ["template" => "modifuser.php", "datas" => $datas];
 }
 
@@ -114,6 +122,14 @@ function showAllUser() {
         $user->setIdUtilisateur($_GET['id']);
         $use = $user->select();
         $datas["user"]=$use;
+    }
+
+    foreach($datas["users"] as &$com){
+        $com->setPseudo(htmlspecialchars($com->getPseudo()));
+        $com->setPassword(htmlspecialchars($com->getPassword()));
+        $com->setNom(htmlspecialchars($com->getNom()));
+        $com->setPrenom(htmlspecialchars($com->getPrenom()));
+        $com->setAdresse(htmlspecialchars($com->getAdresse()));
     }
 
     return ["template" => "alluser.php", "datas" => $datas];
@@ -137,6 +153,10 @@ function showComment() {
         $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
         $user= $utilisateur->select();
         $com->user = $user;
+    }
+
+    foreach($datas["comment"] as &$com){
+        $com->setdescription(htmlspecialchars($com->getdescription()));
     }
 
     return ["template" => "mescours.php", "datas" => $datas];
@@ -204,7 +224,8 @@ var_dump($user);
 }
 header('Location:index.php');
 }else {
-    echo "Le pseudo et le mot de passe sont incorrects";
+    header('Location:index.php');
+
 }
 }
 
@@ -245,7 +266,7 @@ function deleteUser(){
     $user = new Utilisateurs();
     $user-> setIdUtilisateur($_SESSION["id"]);
     $user->delete();
-    header('Location:index.php?route=user');
+    header('Location:index.php');
 }
 
 // La fonction deconnectUser permet de deconnecter un utilisateur et de le renvoyer sur la page d'accueil

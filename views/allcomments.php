@@ -10,10 +10,10 @@ $comm = $view["datas"]["comment"];
                   <ul class="dropdown menu" data-dropdown-menu>
                     <li class="menu-text">
             <li><a href="index.php?route=membre">Accueil</a></li>
-            <li><a href="index.php?route=insert_comment">Mes cours</a></li>
-            <li><a href="">Agenda Perso</a></li>
+            <li><a href="index.php?route=insert_comment">Cours</a></li>
+            <li><a href="">Agenda</a></li>
             <li><a href="">Suivi</a></li>
-            <li><a href="">Reseau social</a></li>
+            <li><a href="index.php?route=user">Mon profil</a></li>
         <?php 
     if ($_SESSION['role'] == 'Enfant'){
     require "html/menueleve.html";
@@ -25,6 +25,13 @@ $comm = $view["datas"]["comment"];
     require "html/menuparent.html";
 }
     ?>
+
+
+            <li><a href="index.php?route=deconnect">Me deconnecter</a></li>
+        </ul>
+    </div>
+</div>
+    </menu>
 
 
             <li><a href="index.php?route=deconnect">Me deconnecter</a></li>
