@@ -1,6 +1,6 @@
 <?php
 if ($_SESSION['role'] == 'Enfant'){
-     echo "Vous êtes sur l'espace Enfant";
+     echo "Bienvenue sur votre espace Enfant";
 
 } else if($_SESSION['role'] == 'Professeur'){
      echo "Vous êtes sur l'espace Professeur";

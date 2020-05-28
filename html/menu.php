@@ -12,8 +12,9 @@
             <div class="top-bar">
                 <div class="top-bar-left">
                   <ul class="dropdown menu" data-dropdown-menu>
-                    <li class="menu-text"><li><a href="#">Accueil</a></li>
-            <li><a href="index.php?route=insert_comment">Mes cours</a></li>
+                    <li class="menu-text">
+            <li><a href="index.php?route=membre">Accueil</a></li>
+            <li><a href="index.php?route=insert_comment">Cours</a></li>
             <li><a href="">Agenda Perso</a></li>
             <li><a href="">Suivi</a></li>
             <li><a href="">Reseau social</a></li>
@@ -38,7 +39,7 @@
 
     <section class="categories">
         <div class="grid-x grid-padding-x">
-            <p class="cell medium-6 large-2"><img src="img\1.jpg" alt="Mes cours" data-toggle="exampleModal"><a href="index.php?route=insert_comment">Mes cours</a>
+            <p class="cell medium-6 large-2"><img src="img\1.jpg" alt="Cours" data-toggle="exampleModal"><a href="index.php?route=insert_comment">Cours</a>
             <p class="cell medium-6 large-2"><img src="img\2.jpg" alt="" data-toggle="exampleModal1"> Mes documents
             <p class="cell medium-6 large-2"><img src="img\3.jpg" alt="" data-toggle="exampleModal2"> Mon agenda
             <p class="cell medium-6 large-2"><img src="img\4.jpg" alt="" data-toggle="exampleModal3"> Mes ressources

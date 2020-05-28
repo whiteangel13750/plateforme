@@ -34,7 +34,7 @@ class Commentaire extends Dbconnect {
         return $this->idComment;
     }
 
-    public function setIdComment(int $id2) {
+    public function setIdComment($id2) {
         $this->idComment = $id2;
     }
 
@@ -62,41 +62,62 @@ public function selectAll(){
         foreach($datas as $data) {
             $current = new Commentaire();
             $current->setIdUtilisateur($data['ID_USER']);
-            $current->setIdComment($data['ID_COMMENT']);
-            $current->setDescription($data['DESCRIPTION']);
+                $current->setIdComment($data['ID_COMMENT']);
+                $current->setDescription($data['DESCRIPTION']);
             array_push($tab, $current);
             }
             return $tab;
 
     }
+  // Permet de selectionner toutes les taches dans la base de donnée. 
+  public function selectByUser(){
+    $query ="SELECT * FROM comments WHERE ID_USER = :iduser ;";
+    $result = $this->pdo->prepare($query);
+    $result->bindValue(':iduser',$this->idUtilisateur,PDO::PARAM_INT);
+    $result->execute();
+    $datas= $result->fetchAll();
 
+    $tab=[];
+    foreach($datas as $data) {
+        $current = new Commentaire();
+            $current->setIdUtilisateur($data['ID_USER']);
+            $current->setIdComment($data['ID_COMMENT']);
+            $current->setDescription($data['DESCRIPTION']);
+        array_push($tab, $current);
+        }
+        return $tab;
+
+}
 // Permet de selectionner une tache dans la base de donnée. 
 public function select(){
-    $query2 = "SELECT * FROM comments WHERE ID_COMMENT = ':idcomment';";
-    $result2 = $this->pdo->prepare($query2);
-    $result2->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
-    $result2->execute();
-    $data2 = $result2->fetch();
-            //appel aux setters de l'objet
+    $query = "SELECT * FROM comments WHERE ID_COMMENT = :idcomment;";
+    $result = $this->pdo->prepare($query);
+    $result->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
+    $result->execute();
+    $data = $result->fetch();
+    $this->setIdUtilisateur($data['ID_USER']);
+    $this->setIdComment($data['ID_COMMENT']);
+    $this->setDescription($data['DESCRIPTION']);
+
         return $this;
     }
 
 // Permet de modifier une tache dans la base de donnée. 
     public function update(){
-            $query ="UPDATE * FROM comments WHERE ID_COMMENT = ':idcomment';";
+            $query ="UPDATE `comments` SET `DESCRIPTION`=:description,`ID_USER`=:iduser WHERE ID_COMMENT = :idcomment";
             $result = $this->pdo->prepare($query);
             $result->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
+            $result->bindValue(':description',$this->description,PDO::PARAM_STR);
+            $result->bindValue(':iduser',$this->idUtilisateur,PDO::PARAM_INT);
             $result->execute();
-                return $this;
     }
 
 // Permet de supprimer une tache dans la base de donnée. 
     public function delete(){
-        $query ="DELETE * FROM comments WHERE ID_COMMENT = ':idcomment';";
+        $query ="DELETE FROM `comments` WHERE ID_COMMENT = :idcomment";
     $result = $this->pdo->prepare($query);
     $result->bindValue(':idcomment',$this->idComment,PDO::PARAM_INT);
     $result->execute();
-        return $this;
     }
 
 }

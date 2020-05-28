@@ -17,6 +17,10 @@ spl_autoload_register(function ($class) {
     }
 });
 
+// ------------------------------------------------------------------------------------
+// 2. ROUTER
+// Structure permettant d'appeler une action en fonction de la requête utilisateur
+
 $route = isset($_REQUEST["route"])? $_REQUEST["route"] : "home";
 
 switch($route) {
@@ -27,25 +31,40 @@ switch($route) {
     case "connect_user" : connectUser();
         break;
     case "update_user" : updateUser();
-    break; 
+        break; 
     case "delete_user" : deleteUser();
-    break; 
+        break;
+    case "user" : $view = showUser();
+        break;
+    case "all_user" : $view = showAllUser();
+        break;
+    case "delete_alluser" : deleteUser();
+        break;
     case "membre" : $view = showMembre();
         break;
     case 'insert_comment' : $view=insertComment();
         break;
     case "comment" : $view = showComment();
         break;
+    case "all_comment" : $view = showAllComment();
+        break;
     case "update_comment" : updateComment();
         break; 
     case "delete_comment" : deleteComment();
-        break; 
-
+        break;
+    case "delete_allcomment" : deleteAllComment();
+        break;
     case "deconnect" : deconnectUser();
         break;
     default : $view= showHome();
 }
 
+// ------------------------------------------------------------------------------------
+// 3. FONCTIONS DE CONTROLE
+// Actions déclenchées en fonction du choix de l'utilisateur
+// 1 choix = 1 fonction avec deux "types" de fonctions, celles qui mèneront à un affichage, et celles qui seront redirigées (vers un choix conduisant à un affichage)
+
+// La fonction showHome permet d'afficher la page d'accueil. Si jamais l'utilisateur est connecté, il se trouve sur la page membre
 function showHome() {
             if(isset($_SESSION["utilisateur"])) {
                 header("Location:index.php?route=membre");
@@ -54,27 +73,110 @@ function showHome() {
             return ["template" => "home.html", "datas" => $datas];
 }
 
+// La fonction showMembre permet à l'utilisateur de se retrouver sur la page membre une fois connecté
 function showMembre() {
 
     $datas = [];
     return ["template" => "monespace.php", "datas" => $datas];
 }
 
+// La fonction showUser permet de montrer les données de l'utilisateur dans les champs de la page modifuser.php
+function showUser() {
+    $datas = [];
+    $user = new Utilisateurs();
+    $user->setIdUtilisateur($_SESSION["id"]);
+    $datas = [];
+    $datas["user"]= $user->select();
+    
+    if(isset($_GET['id'])) {
+        $user->setIdUtilisateur($_GET['id']);
+        $use = $user->select();
+        $datas["user"]=$use;
+    }
+
+    foreach($datas["user"] as &$us){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($us->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $us->user = $user;
+    }
+
+    return ["template" => "modifuser.php", "datas" => $datas];
+}
+
+function showAllUser() {
+    $datas = [];
+    $user = new Utilisateurs();
+    $user->setIdUtilisateur($_SESSION["id"]);
+    $datas["users"]= $user->selectAll();
+    
+    if(isset($_GET['id'])) {
+        $user->setIdUtilisateur($_GET['id']);
+        $use = $user->select();
+        $datas["user"]=$use;
+    }
+
+    return ["template" => "alluser.php", "datas" => $datas];
+}
+
+// La fonction showUser permet de montrer les commentaires de l'utilisateur dans la page mescours.php
 function showComment() {
     $datas = [];
     $comment = new Commentaire();
-    $datas["comment"]= $comment->selectAll();
-    foreach($datas["comment"] as &$com){
-    $utilisateur = new Utilisateurs();
-    $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
-    $user= $utilisateur->select();
-    $com->user = $user;
-
+    $comment->setIdUtilisateur($_SESSION["id"]);
+    $datas = [];
+    $datas["comment"]= $comment->selectByUser();
+    if(isset($_GET['id'])) {
+        $comment->setIdComment($_GET['id']);
+        $commentaire = $comment->select();
+        $datas["com"]=$commentaire;
     }
+
+    foreach($datas["comment"] as &$com){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $com->user = $user;
+    }
+
     return ["template" => "mescours.php", "datas" => $datas];
 }
 
+// La fonction showUser permet de montrer tous les commentaires des utilisateurs dans la page allcomments.php
+function showAllComment() {
+    $datas = [];
+    $comment = new Commentaire();
+    $comment->setIdUtilisateur($_SESSION["id"]);
+    $datas["comment"]= $comment->selectAll();
 
+ 
+
+
+    if(isset($_GET['id'])) {
+        $comment->setIdComment($_GET['id']);
+        $commentaire = $comment->select();
+        $datas["com"]=$commentaire;
+          
+    }
+
+    foreach($datas["comment"] as &$com){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $com->user = $user;
+    }
+
+    foreach($datas["comment"] as &$com){
+        $com->setdescription(htmlspecialchars($com->getdescription()));
+    }
+
+    return ["template" => "allcomments.php", "datas" => $datas];
+}
+
+// ------------------------------------------------------------------------------------
+// Fonctionnalité(s) redirigées :
+
+// La fonction insertUser permet d'inserer un nouvel utilisateur dans la base de données
 function insertUser() {
     var_dump($_POST);
     if(preg_match("#^[a-zA-Z0-9]*$#", $_POST['pseudo']) &&
@@ -106,6 +208,7 @@ header('Location:index.php');
 }
 }
 
+// La fonction connectUser permet de connecter un utilisateur grâce la base de données
 function connectUser() {
     if(!empty($_POST['pseudo'] && !empty($_POST['password']))){
         $user = new Utilisateurs();
@@ -124,36 +227,80 @@ function connectUser() {
         }
 }
 
+// La fonction updateUser permet de modifier un utilisateur dans la base de données
+function updateUser(){
+    $user = new Utilisateurs();
+    $user-> setIdUtilisateur($_SESSION['id']);
+    $user-> setPseudo($_POST['pseudo']);
+    $user-> setNom($_POST['nom']);
+    $user-> setPrenom($_POST['prenom']);
+    $user-> setAdresse($_POST['adresse']);
+    $user->update();
+    var_dump($user);
+    header('Location:index.php?route=user');
+}
+
+// La fonction deleteUser permet de supprimer un utilisateur dans la base de données
+function deleteUser(){
+    $user = new Utilisateurs();
+    $user-> setIdUtilisateur($_SESSION["id"]);
+    $user->delete();
+    header('Location:index.php?route=user');
+}
+
+// La fonction deconnectUser permet de deconnecter un utilisateur et de le renvoyer sur la page d'accueil
 function deconnectUser() {
     unset($_SESSION['pseudo']);
     header('Location:index.php');
         }
 
+// La fonction insertComment permet d'inserer un nouveau commentaire dans la base de données
 function insertComment() {
     var_dump($_SESSION);
     if(!empty($_POST['description'])){
-        $user = new Commentaire();
-        $user-> setIdUtilisateur($_SESSION['id']);
-        $user-> setDescription($_POST['description']);
-        $user->insert();
-        var_dump($user);
+        $comment = new Commentaire();
+        $comment-> setIdUtilisateur($_SESSION['id']);
+        $comment-> setDescription($_POST['description']);
+        $comment->insert();
+        var_dump($comment);
     } 
     header('Location:index.php?route=comment');
 }
 
+// La fonction updateComment permet de modifier un commentaire dans la base de données
 function updateComment(){
-    $user = new Commentaire();
-    $user-> setIdUtilisateur($_SESSION['id']);
-    $user-> setIdComment($_SESSION['id']);
-    $user-> setDescription($user->getDescription());
-    var_dump($user);
-    $user->update();
-    var_dump($user);
+    $comment = new Commentaire();
+    $comment-> setIdComment($_POST["idComment"]);
+    $comment-> setIdUtilisateur($_SESSION['id']);
+    $comment-> setDescription($_POST['description']);
+    $comment->update();
+    var_dump($comment);
     header('Location:index.php?route=comment');
 }
 
-function deleteUser(){}
-        
+// La fonction deleteComment permet de supprimer un commentaire dans la base de données
+function deleteComment(){
+    $comment = new Commentaire();
+    $comment-> setIdComment($_REQUEST["id"]);
+    var_dump($comment);
+    $comment->delete();
+    var_dump($comment);
+    header('Location:index.php?route=comment');
+}
+
+// La fonction deleteComment permet de supprimer tous les commentaires 
+function deleteAllComment(){
+    $comment = new Commentaire();
+    $comment-> setIdComment($_REQUEST["id"]);
+    var_dump($comment);
+    $comment->delete();
+    var_dump($comment);
+    header('Location:index.php?route=all_comment');
+}
+
+// ------------------------------------------------------------------------------------
+// 4. TEMPLATE
+// Affichage du système de templates HTML  
 ?>
 
 <!DOCTYPE html>
@@ -166,6 +313,18 @@ function deleteUser(){}
 </head>
 <body>
     <?php require "views/{$view['template']}";?>
-    
+ 
+<!-- Version non compilé de Javascript pour Foundation -->
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/what-input/dist/what-input.js"></script>
+<script src="node_modules/foundation-sites/dist/js/foundation.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Compressed CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+
+<!-- Compressed JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+
 </body>
 </html> 

@@ -16,7 +16,7 @@ class Utilisateurs extends Dbconnect {
         parent::__construct($id);
     }
 
-// La syntaxe get permet de lier une propriété d'un objet à une fonction qui sera appelée lorsqu'on accédera à la propriété.
+// La syntaxe get permet de lier une propriété d'un objet à une fonction qui sera appelée lorsqu'on accédera à la propriété. 
     public function getIdUtilisateur() {
         return $this->idUtilisateur;
     }
@@ -105,14 +105,19 @@ public function selectAll(){
 
         foreach($datas as $data) {
             $current = new Utilisateurs();
-            $current->setId($data['id_user']);
+            $current->setIdUtilisateur($data['id_user']);
+            $current->setRole($data['role']);
+            $current->setNom($data['nom']);
+            $current->setPrenom($data['prenom']);
+            $current->setAdresse($data['adresse_email']);
+            $current->setPseudo($data['pseudo']);
             array_push($tab, $current);
             }
             return $tab;
 
     }
 
-// Permet de selectionner un utilisateurs dans la base de donnée. 
+// Permet de selectionner un utilisateur dans la base de donnée. 
     
 public function select(){
     $query2 = "SELECT * FROM users WHERE id_user = :id;";
@@ -129,6 +134,7 @@ public function select(){
         return $this;
     }
 
+// Permet de selectionner un utilisateur par son pseudo dans la base de donnée. 
     public function selectByPseudo(){
         $query2 = "SELECT * FROM users WHERE pseudo = :pseudo;";
         $result2 = $this->pdo->prepare($query2);
@@ -137,6 +143,27 @@ public function select(){
         $data2 = $result2->fetch();
          return $data2;
         }
+
+// Permet de modifier un utilisateur dans la base de donnée. 
+    public function update(){
+            
+            $query ="UPDATE `users` SET `ID_USER`=:iduser, `NOM`=:nom,`PRENOM`=:prenom,`ADRESSE_EMAIL`=:adresse,`PSEUDO`=:pseudo WHERE ID_USER = :iduser";;
+            $result = $this->pdo->prepare($query);
+            $result->bindValue(':iduser',$this->idUtilisateur,PDO::PARAM_INT);
+            $result->bindValue(':nom',$this->nom,PDO::PARAM_STR);
+            $result->bindValue(':prenom',$this->prenom,PDO::PARAM_STR);
+            $result->bindValue(':adresse',$this->adresse,PDO::PARAM_STR);
+            $result->bindValue(':pseudo',$this->pseudo,PDO::PARAM_STR);
+            $result->execute();
+    }
+
+// Permet de supprimer un utilisateur dans la base de donnée. 
+    public function delete(){
+        $query ="DELETE FROM `users` WHERE ID_USER = :iduser";
+    $result = $this->pdo->prepare($query);
+    $result->bindValue(':iduser',$this->idUtilisateur,PDO::PARAM_INT);
+    $result->execute();
+    }
 
 }
 ?>
