@@ -22,7 +22,7 @@ class Utilisateurs extends Dbconnect {
     }
 
 // La syntaxe set permet de lier une propriété d'un objet à une fonction qui sera appelée à chaque tentative de modification de cette propriété.
-    public function setIdUtilisateur(int $id) {
+    public function setIdUtilisateur($id) {
         $this->idUtilisateur = $id;
     }
 

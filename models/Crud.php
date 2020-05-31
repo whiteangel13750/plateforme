@@ -1,6 +1,6 @@
 <?php
 
-// il désigne les opérations permettant la gestion d'une collection d'éléments.
+// Le Crud désigne les opérations permettant la gestion d'une collection d'éléments.
 
 interface Crud {
     function insert();

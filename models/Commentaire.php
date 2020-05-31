@@ -38,7 +38,7 @@ class Commentaire extends Dbconnect {
         $this->idComment = $id2;
     }
 
-   // Permet d'inserer une tache dans la base de donnée. 
+   // Permet d'inserer un commentaire dans la base de donnée. 
     public function insert(){
         $query = "INSERT INTO comments (DESCRIPTION, ID_USER) VALUES (:description, :id)";
         $result = $this->pdo->prepare($query);
@@ -50,7 +50,7 @@ class Commentaire extends Dbconnect {
         return $this;
     }
 
-  // Permet de selectionner toutes les taches dans la base de donnée. 
+  // Permet de selectionner tous les commentaires dans la base de donnée. 
 public function selectAll(){
         $query ="SELECT * FROM comments;";
         $result = $this->pdo->prepare($query);
@@ -69,7 +69,7 @@ public function selectAll(){
             return $tab;
 
     }
-  // Permet de selectionner toutes les taches dans la base de donnée. 
+  // Permet de selectionner tous les commentaires dans la base de donnée. 
   public function selectByUser(){
     $query ="SELECT * FROM comments WHERE ID_USER = :iduser ;";
     $result = $this->pdo->prepare($query);
@@ -88,7 +88,7 @@ public function selectAll(){
         return $tab;
 
 }
-// Permet de selectionner une tache dans la base de donnée. 
+// Permet de selectionner un commentaire dans la base de donnée. 
 public function select(){
     $query = "SELECT * FROM comments WHERE ID_COMMENT = :idcomment;";
     $result = $this->pdo->prepare($query);
@@ -102,7 +102,7 @@ public function select(){
         return $this;
     }
 
-// Permet de modifier une tache dans la base de donnée. 
+// Permet de modifier un commentaire dans la base de donnée. 
     public function update(){
             $query ="UPDATE `comments` SET `DESCRIPTION`=:description,`ID_USER`=:iduser WHERE ID_COMMENT = :idcomment";
             $result = $this->pdo->prepare($query);
@@ -112,7 +112,7 @@ public function select(){
             $result->execute();
     }
 
-// Permet de supprimer une tache dans la base de donnée. 
+// Permet de supprimer un commentaire dans la base de donnée. 
     public function delete(){
         $query ="DELETE FROM `comments` WHERE ID_COMMENT = :idcomment";
     $result = $this->pdo->prepare($query);

@@ -1,4 +1,6 @@
 <?php
+
+// Afiichage d'un message de bienvenue selon les roles et affichage du menu
 if ($_SESSION['role'] == 'Enfant'){
      echo "Bienvenue sur votre espace Enfant";
 

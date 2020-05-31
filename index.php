@@ -31,14 +31,16 @@ switch($route) {
     case "connect_user" : connectUser();
         break;
     case "update_user" : updateUser();
-        break; 
+        break;
+    case "update_alluser" : updateAllUser();
+        break;  
     case "delete_user" : deleteUser();
         break;
     case "user" : $view = showUser();
         break;
     case "all_user" : $view = showAllUser();
         break;
-    case "delete_alluser" : deleteUser();
+    case "delete_alluser" : deleteAllUser();
         break;
     case "membre" : $view = showMembre();
         break;
@@ -49,10 +51,22 @@ switch($route) {
     case "all_comment" : $view = showAllComment();
         break;
     case "update_comment" : updateComment();
-        break; 
+        break;
+    case "update_allcomment" : updateAllComment();
+    break; 
     case "delete_comment" : deleteComment();
         break;
     case "delete_allcomment" : deleteAllComment();
+        break;
+    case 'insert_cours' : $view=insertCours();
+        break;
+    case "cours" : $view = showCours();
+        break;
+    case "all_cours" : $view = showAllCours();
+        break;
+    case "update_cours" : updateCours();
+        break; 
+    case "delete_cours" : deleteCours();
         break;
     case "deconnect" : deconnectUser();
         break;
@@ -112,6 +126,7 @@ function showUser() {
     return ["template" => "modifuser.php", "datas" => $datas];
 }
 
+// La fonction showAllUser permet de montrer les commentaires de l'utilisateur dans la page alluser.php
 function showAllUser() {
     $datas = [];
     $user = new Utilisateurs();
@@ -135,7 +150,7 @@ function showAllUser() {
     return ["template" => "alluser.php", "datas" => $datas];
 }
 
-// La fonction showUser permet de montrer les commentaires de l'utilisateur dans la page mescours.php
+// La fonction showComment permet de montrer les commentaires de l'utilisateur dans la page mescours.php
 function showComment() {
     $datas = [];
     $comment = new Commentaire();
@@ -158,11 +173,11 @@ function showComment() {
     foreach($datas["comment"] as &$com){
         $com->setdescription(htmlspecialchars($com->getdescription()));
     }
-
-    return ["template" => "mescours.php", "datas" => $datas];
+    
+    return ["template" => "comment.php", "datas" => $datas];
 }
 
-// La fonction showUser permet de montrer tous les commentaires des utilisateurs dans la page allcomments.php
+// La fonction showAllComment permet de montrer tous les commentaires des utilisateurs dans la page allcomments.php
 function showAllComment() {
     $datas = [];
     $comment = new Commentaire();
@@ -193,15 +208,79 @@ function showAllComment() {
     return ["template" => "allcomments.php", "datas" => $datas];
 }
 
+//La fonction showCours permet de montrer les cours de l'utilisateur dans la page cours.php
+function showCours() {
+    $datas = [];
+    $cours = new Cours();
+    $cours->setIdUtilisateur($_SESSION["id"]);
+    $datas = [];
+    $datas["cours"]= $cours->selectByUser();
+    if(isset($_GET['id'])) {
+        $cours->setIdCours($_GET['id']);
+        $cours1 = $cours->select();
+        $datas["cou"]=$cours1;
+    }
+
+    foreach($datas["cours"] as &$cou){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($cou->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $cou->user = $user;
+    }
+
+    foreach($datas["cours"] as &$cou){
+
+        $cou->setTitre(htmlspecialchars($cou->getTitre()));
+        $cou->setImage(htmlspecialchars($cou->getImage()));
+        $cou->setMatiere(htmlspecialchars($cou->getMatiere()));
+        $cou->setContenu(htmlspecialchars($cou->getContenu()));
+    }
+
+    return ["template" => "cours.php", "datas" => $datas];
+}
+
+//La fonction showAllCours permet de montrer tous les cours des utilisateurs dans la page allcours.php
+
+function showAllCours() {
+    $datas = [];
+    $cours = new Cours();
+    $cours->setIdUtilisateur($_SESSION["id"]);
+    $datas = [];
+    $datas["cours"]= $cours->selectAll();
+    if(isset($_GET['id'])) {
+        $cours->setIdCours($_GET['id']);
+        $cours1 = $cours->select();
+        $datas["cou"]=$cours1;
+    }
+
+    foreach($datas["cours"] as &$cou){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($cou->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $cou->user = $user;
+    }
+
+    foreach($datas["cours"] as &$cou){
+
+        $cou->setTitre(htmlspecialchars($cou->getTitre()));
+        $cou->setImage(htmlspecialchars($cou->getImage()));
+        $cou->setMatiere(htmlspecialchars($cou->getMatiere()));
+        $cou->setContenu(htmlspecialchars($cou->getContenu()));
+    }
+
+    return ["template" => "allcours.php", "datas" => $datas];
+}
+
+
+
 // ------------------------------------------------------------------------------------
 // Fonctionnalité(s) redirigées :
 
 // La fonction insertUser permet d'inserer un nouvel utilisateur dans la base de données
 function insertUser() {
     var_dump($_POST);
-    if(preg_match("#^[a-zA-Z0-9]*$#", $_POST['pseudo']) &&
-preg_match("#^[a-zA-Z0-9]*$#", $_POST['password'])){
-    echo "Le pseudo et le mot de passe sont corrects";
+    if(preg_match("#^[a-zA-Z0-9ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒŠþÙÚÛÜÝŸàáâãäåæçèéêëìíîïðñòóôõöøœšÞùúûüýÿ]*$#", $_POST['pseudo']) &&
+preg_match("#^[a-zA-Z0-9ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒŠþÙÚÛÜÝŸàáâãäåæçèéêëìíîïðñòóôõöøœšÞùúûüýÿ.,?&@;]*$#", $_POST['password'])){
     if(!empty($_POST['role'] && !empty($_POST['nom'] && !empty($_POST['prenom'] && !empty($_POST['adresse'] && !empty($_POST['pseudo'] && !empty($_POST['password']))))))){
 $user = new Utilisateurs();
 $user-> setRole($_POST['role']);
@@ -257,8 +336,19 @@ function updateUser(){
     $user-> setPrenom($_POST['prenom']);
     $user-> setAdresse($_POST['adresse']);
     $user->update();
-    var_dump($user);
     header('Location:index.php?route=user');
+}
+
+// La fonction updateUser permet de modifier un utilisateur dans la base de données
+function updateAllUser(){
+    $user = new Utilisateurs();
+    $user-> setIdUtilisateur($_SESSION['id']);
+    $user-> setPseudo($_POST['pseudo']);
+    $user-> setNom($_POST['nom']);
+    $user-> setPrenom($_POST['prenom']);
+    $user-> setAdresse($_POST['adresse']);
+    $user->update();
+    header('Location:index.php?route=all_user');
 }
 
 // La fonction deleteUser permet de supprimer un utilisateur dans la base de données
@@ -269,6 +359,14 @@ function deleteUser(){
     header('Location:index.php');
 }
 
+// La fonction deleteAllUser permet de supprimer un utilisateur dans la base de données
+function deleteAllUser(){
+    $user = new Utilisateurs();
+    $user-> setIdUtilisateur($_REQUEST["id"]);
+    $user->delete();
+    header('Location:index.php?route=all_user');
+}
+
 // La fonction deconnectUser permet de deconnecter un utilisateur et de le renvoyer sur la page d'accueil
 function deconnectUser() {
     unset($_SESSION['pseudo']);
@@ -277,7 +375,7 @@ function deconnectUser() {
 
 // La fonction insertComment permet d'inserer un nouveau commentaire dans la base de données
 function insertComment() {
-    var_dump($_SESSION);
+    if(preg_match("#^[a-zA-Z0-9ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒŠþÙÚÛÜÝŸàáâãäåæçèéêëìíîïðñòóôõöøœšÞùúûüýÿ' /]*$#", $_POST['description'])){
     if(!empty($_POST['description'])){
         $comment = new Commentaire();
         $comment-> setIdUtilisateur($_SESSION['id']);
@@ -286,6 +384,9 @@ function insertComment() {
         var_dump($comment);
     } 
     header('Location:index.php?route=comment');
+    } else {
+        header('Location:index.php?route=comment');
+    }
 }
 
 // La fonction updateComment permet de modifier un commentaire dans la base de données
@@ -299,6 +400,17 @@ function updateComment(){
     header('Location:index.php?route=comment');
 }
 
+// La fonction updateComment permet de modifier un commentaire dans la base de données
+function updateAllComment(){
+    $comment = new Commentaire();
+    $comment-> setIdComment($_POST["idComment"]);
+    $comment-> setIdUtilisateur($_SESSION['id']);
+    $comment-> setDescription($_POST['description']);
+    $comment->update();
+    var_dump($comment);
+    header('Location:index.php?route=all_comment');
+}
+
 // La fonction deleteComment permet de supprimer un commentaire dans la base de données
 function deleteComment(){
     $comment = new Commentaire();
@@ -309,7 +421,7 @@ function deleteComment(){
     header('Location:index.php?route=comment');
 }
 
-// La fonction deleteComment permet de supprimer tous les commentaires 
+// La fonction deleteAllComment permet de supprimer tous les commentaires 
 function deleteAllComment(){
     $comment = new Commentaire();
     $comment-> setIdComment($_REQUEST["id"]);
@@ -317,6 +429,46 @@ function deleteAllComment(){
     $comment->delete();
     var_dump($comment);
     header('Location:index.php?route=all_comment');
+}
+
+// La fonction insertCours permet d'inserer un nouveau cours dans la base de données
+function insertCours() {
+    if(!empty($_POST['titre']) && !empty($_POST['matiere']) && !empty($_POST['contenu']) && !empty($_POST['image'])){
+        $cours = new Cours();
+        $cours-> setIdUtilisateur($_SESSION['id']);
+        $cours-> setTitre($_POST['titre']);
+        $cours-> setMatiere($_POST['matiere']);
+        $cours-> setContenu($_POST['contenu']);
+        $cours-> setImage($_POST['image']);
+        $cours->insert();
+        var_dump($cours);
+    } 
+    header('Location:index.php?route=cours');
+}
+
+// La fonction updateCours permet de modifier un cours dans la base de données
+function updateCours(){
+    $cours = new Cours();
+    $cours-> setIdCours($_POST["idCours"]);
+    $cours-> setIdUtilisateur($_SESSION['id']);
+    $cours-> setTitre($_POST['titre']);
+    $cours-> setMatiere($_POST['matiere']);
+    $cours-> setContenu($_POST['contenu']);
+    $cours-> setImage($_POST['image']);
+    $cours->update();
+    var_dump($cours);
+    header('Location:index.php?route=cours');
+
+}
+
+// La fonction deleteCours permet de supprimer un cours dans la base de données
+function deleteCours(){
+    $cours = new Cours();
+    $cours-> setIdCours($_REQUEST["id"]);
+    var_dump($cours);
+    $cours->delete();
+    var_dump($cours);
+    header('Location:index.php?route=cours');
 }
 
 // ------------------------------------------------------------------------------------
@@ -329,7 +481,8 @@ function deleteAllComment(){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css\style.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>La Plateforme</title>
 </head>
 <body>

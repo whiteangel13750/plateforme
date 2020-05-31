@@ -1,5 +1,7 @@
 <?php
 
+// Le DBconnect permet de faire la liaison à la base de donnée grace au PDO
+
 abstract class Dbconnect implements Crud {
     protected $pdo;
     protected $id;
@@ -16,6 +18,8 @@ abstract class Dbconnect implements Crud {
     abstract function selectAll();
     abstract function insert();
     abstract function select();
+    abstract function update();
+    abstract function delete();
 
 }
 ?>

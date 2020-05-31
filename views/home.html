@@ -1,16 +1,9 @@
-<!DOCTYPE html>
- <html lang="fr">
+ 
+ <!-- Vue qui permet d'afficher les formulaires de connexion et d'inscription -->
 
-    <head>
-         <title>La plateforme</title>
-         <meta charset="utf-8">
-          <link rel="stylesheet" type="text/css" href="css/app.css">
-     </head>   
- <body>
-
- <h2>Inscrivez-vous</h2>
 
  <section class="row bg-light">
+  <h2>Inscrivez-vous</h2>
      <div class="col-6">
      <form action="index.php?route=insert_user" method="post">
             <div>
@@ -46,24 +39,25 @@
            </div>
          </form>
      </div>
-<br>
+    </section>
 
-<h2>Se connecter</h2>
 
+
+<section class="row bg-light">
+  <h2>Se connecter</h2>
+  <div class="col-6">
      <form action="index.php?route=connect_user" method="post">
         <div>
         <label> Pseudo </label>
-        <input type='text' id='pseudo' name='pseudo' placeholder="Votre pseudo">
+        <input type='text' id='pseudo1' name='pseudo' placeholder="Votre pseudo">
         </div>
         <div>
         <label> Mot de Passe </label>
-        <input type='password' id='password' name='password' placeholder="Votre mot de passe" required='required'>
+        <input type='password' id='password1' name='password' placeholder="Votre mot de passe" required='required'>
         </div>
         <div>
       <input type='submit' id='connexion' value='Connexion'>
       </div>
     </form>
-</div>
- </section>
-     </body>
- </html>
+  </div>
+</section>
