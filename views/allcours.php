@@ -34,11 +34,12 @@ $cou = $view["datas"]["cours"];
 <section>
     <h2>Mes Cours </h2>
     <?php foreach ($cou as $cours) : ?>
-                    <img src="<?= $cours->getImage()?>" alt="" height="352" width="470">
-                    <h3><?= $cours->getTitre()?></h3>
-                    <h4><?= $cours->getTitre()?></h4>
-                    <h5><?= $cours->getMatiere()?></h5>
-                    <p><?= $cours->getContenu()?></p></a>
-                    <p>**************************</p> 
+            <img src="<?= $cours->getImage()?>" alt="" height="352" width="470">
+            <h3><?= $cours->getTitre()?></h3>
+            <h4><?= $cours->getTitre()?></h4>
+            <h5><?= $cours->getMatiere()?></h5>
+            <p><?= $cours->getContenu()?></p></a>
+            <p>**************************</p>
+        </div>
     <?php endforeach ?>
 </section>

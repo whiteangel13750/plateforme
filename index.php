@@ -1,5 +1,7 @@
 <?php
 
+use Models\Month;
+
 // Demarre une session utilisateur
 session_start();
 
@@ -53,7 +55,7 @@ switch($route) {
     case "update_comment" : updateComment();
         break;
     case "update_allcomment" : updateAllComment();
-    break; 
+        break; 
     case "delete_comment" : deleteComment();
         break;
     case "delete_allcomment" : deleteAllComment();
@@ -67,6 +69,8 @@ switch($route) {
     case "update_cours" : updateCours();
         break; 
     case "delete_cours" : deleteCours();
+        break;
+    case "calendrier" : $view = showCalendrier();
         break;
     case "deconnect" : deconnectUser();
         break;
@@ -85,6 +89,13 @@ function showHome() {
             }       
             $datas = [];
             return ["template" => "home.html", "datas" => $datas];
+}
+
+// La fonction showCalendrier permet à l'utilisateur d'afficher le calendrier
+function showCalendrier() {
+
+    $datas = [];
+    return ["template" => "calendrier.php", "datas" => $datas];
 }
 
 // La fonction showMembre permet à l'utilisateur de se retrouver sur la page membre une fois connecté
@@ -155,7 +166,6 @@ function showComment() {
     $datas = [];
     $comment = new Commentaire();
     $comment->setIdUtilisateur($_SESSION["id"]);
-    $datas = [];
     $datas["comment"]= $comment->selectByUser();
     if(isset($_GET['id'])) {
         $comment->setIdComment($_GET['id']);
@@ -213,7 +223,6 @@ function showCours() {
     $datas = [];
     $cours = new Cours();
     $cours->setIdUtilisateur($_SESSION["id"]);
-    $datas = [];
     $datas["cours"]= $cours->selectByUser();
     if(isset($_GET['id'])) {
         $cours->setIdCours($_GET['id']);
