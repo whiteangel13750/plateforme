@@ -1,0 +1,201 @@
+.categories{
+    width:90%;
+    margin-top:5%;
+    margin-left:5%
+}
+body {
+    width: 100%;
+    margin: auto;
+    padding: 0;
+
+}
+
+.bg-light {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    margin-top: 100px;
+}
+
+h2 {
+    margin-bottom: 80%;
+}
+
+h1.recipe-head {
+    position: absolute;
+    margin: 25vh 0 0 -8px;
+    background-color: #A5926A;
+    padding: 10px calc(1em + 12px);
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/*************Modale**************/
+
+/* On défini les propriétés de l'élément à afficher, tout en masquant sa visibilité */
+#targeted {
+    position: fixed;
+    top: 25vh;
+    left: 25%;
+    width: 50%;
+    height: 50vh;
+    z-index: 2000;
+    padding: 0 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid grey;
+    display: none;
+}
+
+/* Lorsque l'élément est ciblé, on modifie sa visibilité */
+#targeted:target {
+    display : block;
+}
+
+/*************Images**************/
+.img-bullet {
+    overflow: hidden;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.img-bullet img {
+    width: 100%;
+    border-radius: 100px;
+    height: 20vh;
+}
+
+.img-block {
+    overflow: hidden;
+    margin: 20px auto;
+    height: 22vh;
+}
+
+.img-block img {
+    width: 100%;
+    /*height: 25vh;*/
+}
+
+.illustration {
+    overflow: hidden;
+    height: 40vh;
+    margin-top: 60px;
+}
+
+.illustration img{
+    margin-top: -50px;
+    /*height: 85vh;*/
+}
+
+/*************Grille**************/
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left : 20%;
+}
+
+[class^='col-'] { margin: 2em; }
+
+.col-1 { width: 8.33%; }
+.col-2 {  width: calc(16.66% - 2em); }
+.col-3 { width: calc(25% - 3em); }
+.col-4 { width: calc(33.33% - 4em); } /* width: 33.33%; */
+.col-5 { width: 41.66%; }
+.col-6 { width: calc(50% - 4em);
+margin-left : 15%;} 
+.col-7 { width: 58.33%; }
+.col-8 { width: 66.66%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.33%; }
+.col-11 { width: 91.66% }
+.col-12 { width: 100%; }
+
+.nav-arrow {
+    width: 60%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -40px;
+    margin-bottom: 20px;
+}
+
+.left-arrow {
+    border-top : 10px solid transparent;
+    border-right : 20px solid darkslategray;
+    border-bottom : 10px solid transparent;
+}
+
+.right-arrow {
+    border-top : 10px solid transparent;
+    border-left : 20px solid darkslategray;
+    border-bottom : 10px solid transparent;
+}
+
+.table-calendrier, td {
+    border: 1px solid lightgray;
+    border-collapse: collapse;
+}
+
+.table-calendrier {
+    width: 60%;
+    margin: auto;
+}
+
+.table-calendrier tr td {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.current {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.current-day {
+    font-weight: normal;
+}
+
+.out {
+    color: lightgray;
+    font-size: 1.5em;
+}
+
+.out-day {
+    color: darkgray;
+}
+
+/* Affichage liste tache */
+.tab-taches {
+    margin: auto;
+    width: 80%;
+}
+
+.tab-taches th {
+    text-align: left;
+}
+
+.tab-taches tr {
+    width: 100%;
+}
+
+.alert {
+    color: red;
+}

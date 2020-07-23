@@ -9,11 +9,10 @@ $comm = $view["datas"]["comment"];
                 <div class="top-bar-left">
                   <ul class="dropdown menu" data-dropdown-menu>
                     <li class="menu-text">
-            <li><a href="index.php?route=membre">Accueil</a></li>
-            <li><a href="index.php?route=cours">Mes cours</a></li>
-            <li><a href="">Agenda</a></li>
-            <li><a href="">Suivi</a></li>
-            <li><a href="index.php?route=user">Mon profil</a></li>
+                    <li><a href="index.php?route=membre">Accueil</a></li>
+                    <li><a href="index.php?route=cours">Mes cours</a></li>
+                    <li><a href="index.php?route=calendrier">Agenda</a></li>
+                    <li><a href="index.php?route=user">Mon profil</a></li>
         <?php 
     if ($_SESSION['role'] == 'Enfant'){
     require "html/menueleve.html";
@@ -33,8 +32,9 @@ $comm = $view["datas"]["comment"];
 </div>
 </nav>
 
-
-<h2> Modification d'un commentaire</h2>
+<section class="row bg-light">
+  <div class="col-6">
+  <h2> Modification d'un commentaire</h2>
      <form action="index.php?route=<?=isset($view['datas']['com'])? "update_allcomment" : ""; ?>" method="post">
              <div>
              <label> Commentaires : </label>
@@ -45,6 +45,8 @@ $comm = $view["datas"]["comment"];
            <input type='submit' id='valider' value='<?=isset($view['datas']['com'])? "Modifier" : "Modifier"; ?>'>
            </div>
          </form>
+         </div>
+    </section>
 
 <h2>Mes Commentaires </h2>
 <?php foreach ($comm as $comment) : ?>

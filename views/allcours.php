@@ -10,9 +10,8 @@ $cou = $view["datas"]["cours"];
                   <ul class="dropdown menu" data-dropdown-menu>
                             <li class="menu-text">
                             <li><a href="index.php?route=membre">Accueil</a></li>
-                            <li><a href="index.php?route=all_cours">Mes cours</a></li>
-                            <li><a href="">Agenda</a></li>
-                            <li><a href="">Suivi</a></li>
+                            <li><a href="index.php?route=cours">Mes cours</a></li>
+                            <li><a href="index.php?route=calendrier">Agenda</a></li>
                             <li><a href="index.php?route=user">Mon profil</a></li>
                             <?php 
                         if ($_SESSION['role'] == 'Enfant'){
@@ -30,16 +29,19 @@ $cou = $view["datas"]["cours"];
                 </div>
             </div>
     </nav>
-
+ <h2>Mes Cours </h2>
 <section>
-    <h2>Mes Cours </h2>
-    <?php foreach ($cou as $cours) : ?>
-            <img src="<?= $cours->getImage()?>" alt="" height="352" width="470">
-            <h3><?= $cours->getTitre()?></h3>
-            <h4><?= $cours->getTitre()?></h4>
-            <h5><?= $cours->getMatiere()?></h5>
-            <p><?= $cours->getContenu()?></p></a>
-            <p>**************************</p>
-        </div>
-    <?php endforeach ?>
-</section>
+<?php foreach ($cou as $cours) : ?>
+<div class="col-5">
+<p><button class="button" data-open="cours"><?= $cours->getTitre()?></button></p>
+<div class="full reveal" id="cours" data-reveal>
+  <div class="img-block"><img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>"></div>
+  <h3><?= $cours->getMatiere()?></h3>
+  <p><?= $cours->getContenu()?></p>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+  </div>
+  </section>
+<?php endforeach ?>

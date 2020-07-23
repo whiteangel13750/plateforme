@@ -10,8 +10,7 @@ $user = $view["datas"]["users"];
                             <li class="menu-text">
                             <li><a href="index.php?route=membre">Accueil</a></li>
                             <li><a href="index.php?route=cours">Mes cours</a></li>
-                            <li><a href="">Agenda</a></li>
-                            <li><a href="">Suivi</a></li>
+                            <li><a href="index.php?route=calendrier">Agenda</a></li>
                             <li><a href="index.php?route=user">Mon profil</a></li>
                             <?php 
                         if ($_SESSION['role'] == 'Enfant'){
@@ -31,9 +30,9 @@ $user = $view["datas"]["users"];
     </nav>
 
  <section class="row bg-light">
- <h2>Modifier ses coordonnées</h2>
      <div class="col-6">
-     <form action="index.php?route=<?=isset($view['datas']['user'])? "update_alluser" : ""; ?>" method="post">
+        <h2>Modifier ses coordonnées</h2>
+        <form action="index.php?route=<?=isset($view['datas']['user'])? "update_alluser" : ""; ?>" method="post">
             <div>
             <label> Nom</label>
             <input type='text' id='nom' name='nom' placeholder="Votre nom"  value='<?=isset($view['datas']['user'])? $view['datas']['user']->getNom() : ""; ?>'>

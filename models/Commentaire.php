@@ -67,7 +67,6 @@ public function selectAll(){
             array_push($tab, $current);
             }
             return $tab;
-
     }
   // Permet de selectionner tous les commentaires dans la base de donnée. 
   public function selectByUser(){
