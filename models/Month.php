@@ -1,20 +1,20 @@
 <?php 
 
-use \DateTimeImmutable;
-use \DateTimeZone;
-
 class Month {
 
     const MONTH_NAME_FR = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
     const DAY_NAME_FR = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
-    public $monthName;
-    public $year;
+    private $previous;
+    private $next;
+    private $monthName;
+    private $year;
     private $first;
     private $last;
 
     public function __construct(int $num, int $year) {
-
+        $this->setPrevious();
+        $this->setNext();
         $this->setMonthName($num);
         $this->setYear($year);
         $this->setFirst($num);
@@ -68,28 +68,19 @@ class Month {
         return ((int) $first_monday->format('d') === 01)? $first_monday : $first_monday->modify('last monday');
     }
     
-
-    // Renvoie le mois suivant
-    public function nextMonth() : Month {
-        $month = date("m") +1 ;
-        $year = date("y");
-        if ($month >12) {
-            $month = 1;
-            $year +=1;
-        }
-        return new Month($month, $year);
+    public function setPrevious() {
+        $this->previous = $this->first->modify("-1 month");
     }
-
-    // Renvoie le mois precedent
-    public function previousMonth() : Month {
-        $month = date("m") -1 ;
-        $year = date("y");
-        if ($month <1) {
-            $month = 12;
-            $year -=1;
-        }
-        return new Month($month, $year);
+	
+    public function getPrevious(): DateTimeImmutable {
+        return $this->previous;
     }
-
-
+	
+    public function setNext() {
+        $this->next = $this->first->modify("+ 1 month");
+    }
+	
+    public function getNext(): DateTimeImmutable {
+        return $this->next;
+    }
 }

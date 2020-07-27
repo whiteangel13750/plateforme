@@ -95,6 +95,8 @@ function showHome() {
 function showCalendrier() {
 
     $datas = [];
+    $month = new Month(date("m"), date("y"));
+
     return ["template" => "calendrier.php", "datas" => $datas];
 }
 

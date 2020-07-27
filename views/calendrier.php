@@ -1,5 +1,3 @@
-<?php 
-$month = new Month(date("m"), date("y")); ?>
 
 <nav>
             <div class="top-bar">
@@ -33,10 +31,10 @@ $month = new Month(date("m"), date("y")); ?>
 
 <div class="nav-arrow">
     <div class="left-arrow">
-        <a href="<?=$month->previousMonth()->monthName?>">
+    <div><a href="index_month.php?month=<?=$month->getPrevious()->format("m") ?>&year=<?= $month->getPrevious()->format("Y") ?>"></a></div>
     </div>
     <div class="right-arrow">
-    <a href="<?= $month->nextMonth()->monthName?>">
+    <div><a href="index_month.php?month=<?=$month->getNext()->format("m") ?>&year=<?= $month->getNext()->format("Y") ?>"></a></div>
     </div>
 </div>
 
