@@ -13,12 +13,13 @@ class Month {
     private $last;
 
     public function __construct(int $num, int $year) {
-        $this->setPrevious();
-        $this->setNext();
+
         $this->setMonthName($num);
         $this->setYear($year);
         $this->setFirst($num);
         $this->setLast();
+        $this->setPrevious();
+        $this->setNext();
     }
 
     public function getMonthName(): string {
@@ -60,6 +61,11 @@ class Month {
         $first = (int) $this->first->format("W");
         $last = (int) $this->last->format("W");
         $last = ($last === 1 && (int) $this->last->format("m") === 12)? 53 : $last;
+
+        if ($first == 52 || $first == 53){
+            $first =0;
+        }
+        
         return $last - $first + 1;
     }
 
@@ -69,7 +75,7 @@ class Month {
     }
     
     public function setPrevious() {
-        $this->previous = $this->first->modify("-1 month");
+        $this->previous = $this->first->modify('-1 month');
     }
 	
     public function getPrevious(): DateTimeImmutable {

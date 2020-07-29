@@ -1,4 +1,6 @@
-
+<?php 
+$month = $view["datas"];
+?>
 <nav>
             <div class="top-bar">
                 <div class="top-bar-left">
@@ -30,12 +32,8 @@
 <h2 class="text-center">Mois de <?= $month->getMonthName() ?> <?= $month->getYear() ?></h2>
 
 <div class="nav-arrow">
-    <div class="left-arrow">
-    <div><a href="index_month.php?month=<?=$month->getPrevious()->format("m") ?>&year=<?= $month->getPrevious()->format("Y") ?>"></a></div>
-    </div>
-    <div class="right-arrow">
-    <div><a href="index_month.php?month=<?=$month->getNext()->format("m") ?>&year=<?= $month->getNext()->format("Y") ?>"></a></div>
-    </div>
+    <a href="index.php?route=calendrier&month=<?=$month->getPrevious()->format("m") ?>&year=<?= $month->getPrevious()->format("Y") ?>"><div class="left-arrow"></div></a>
+    <a href="index.php?route=calendrier&month=<?=$month->getNext()->format("m") ?>&year=<?= $month->getNext()->format("Y") ?>"><div class="right-arrow"></div></a>
 </div>
 
 <table class="table-calendrier">

@@ -1,7 +1,5 @@
 <?php
 
-use Models\Month;
-
 // Demarre une session utilisateur
 session_start();
 
@@ -94,11 +92,16 @@ function showHome() {
 // La fonction showCalendrier permet à l'utilisateur d'afficher le calendrier
 function showCalendrier() {
 
-    $datas = [];
-    $month = new Month(date("m"), date("y"));
+    if ($_GET["month"] == 0 && $_GET["year"] == 0) {
+    $datas = new Month(date("m"),date("y"));
+} else {
+    $num = $_GET["month"];
+    $year = $_GET["year"];
+    $datas = new Month($num, $year);
+    }
 
     return ["template" => "calendrier.php", "datas" => $datas];
-}
+} 
 
 // La fonction showMembre permet à l'utilisateur de se retrouver sur la page membre une fois connecté
 function showMembre() {
@@ -112,7 +115,6 @@ function showUser() {
     $datas = [];
     $user = new Utilisateurs();
     $user->setIdUtilisateur($_SESSION["id"]);
-    $datas = [];
     $datas["user"]= $user->select();
     
     if(isset($_GET['id'])) {
