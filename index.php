@@ -70,6 +70,24 @@ switch($route) {
         break;
     case "calendrier" : $view = showCalendrier();
         break;
+    case "notes" : $view = showNotes();
+        break;
+    case "all_notes" : $view = showAllNotes();
+        break;   
+    case 'insert_note' : $view=insertNote();
+        break;
+    case "update_note" : updateNote();
+        break;
+    case "update_allnote" : updateAllNote();
+        break; 
+    case "delete_note" : deleteNote();
+        break;
+    case "delete_allnote" : deleteAllNote();
+        break;   
+    case "tchat" : $view = showTchat();
+        break;
+    case "insert_tchat" : insertTchat();
+        break;
     case "deconnect" : deconnectUser();
         break;
     default : $view= showHome();
@@ -89,11 +107,19 @@ function showHome() {
             return ["template" => "home.html", "datas" => $datas];
 }
 
+function showTchat() {
+
+    $datas = [];
+    return ["template" => "minichat.php", "datas" => $datas];
+}
+
 // La fonction showCalendrier permet à l'utilisateur d'afficher le calendrier
 function showCalendrier() {
 
-    if ($_GET["month"] == 0 && $_GET["year"] == 0) {
-    $datas = new Month(date("m"),date("y"));
+    if (!isset($_GET["month"]) && !isset($_GET["year"])) {
+    $_GET["month"] = date("m");
+    $_GET["year"] = date("y");
+    $datas = new Month($_GET["month"], $_GET["year"]);
 } else {
     $num = $_GET["month"];
     $year = $_GET["year"];
@@ -281,12 +307,117 @@ function showAllCours() {
         $cou->setContenu(htmlspecialchars($cou->getContenu()));
     }
 
+    $comment = new Commentaire();
+    $comment->setIdUtilisateur($_SESSION["id"]);
+    $datas["comment"]= $comment->selectAll();
+
+    if(isset($_GET['idComment'])) {
+        $comment->setIdComment($_GET['idComment']);
+        $commentaire = $comment->select();
+        $datas["com"]=$commentaire;
+          
+    }
+
+    foreach($datas["comment"] as &$com){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($com->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $com->user = $user;
+    }
+
+    foreach($datas["comment"] as &$com){
+        $com->setdescription(htmlspecialchars($com->getdescription()));
+    }
+
     return ["template" => "allcours.php", "datas" => $datas];
 }
 
+function showNotes() {
+    $datas = [];
+    $notes = new Notes();
+    $notes->setIdUtilisateur($_SESSION["id"]);
+    $datas["notes"]= $notes->selectByUser();
+    if(isset($_GET['id'])) {
+        $notes->setIdNote($_GET['id']);
+        $notes1 = $notes->select();
+        $datas["not"]=$notes1;
+    }
+
+    foreach($datas["notes"] as &$not){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($not->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $not->user = $user;
+    }
+
+    foreach($datas["notes"] as &$not){
+
+        $not->setNote(htmlspecialchars($not->getNote()));
+        $not->setMatiere(htmlspecialchars($not->getMatiere()));
+        $not->setCoeff(htmlspecialchars($not->getCoeff()));
+    }
+
+   
+    return ["template" => "notes.php", "datas" => $datas];
+}
+
+function showAllNotes() {
+    $datas = [];
+    $notes = new Notes();
+    $notes->setIdUtilisateur($_SESSION["id"]);
+    $datas["notes"]= $notes->selectAll();
+
+    if(isset($_GET['id'])) {
+        $notes->setIdNote($_GET['id']);
+        $notes1 = $notes->select();
+        $datas["not"]=$notes1;
+    }
+
+    foreach($datas["notes"] as &$not){
+        $utilisateur = new Utilisateurs();
+        $utilisateur->setIdUtilisateur($not->getIdUtilisateur());
+        $user= $utilisateur->select();
+        $not->user = $user;
+    }
+
+    foreach($datas["notes"] as &$not){
+
+        $not->setNote(htmlspecialchars($not->getNote()));
+        $not->setMatiere(htmlspecialchars($not->getMatiere()));
+        $not->setCoeff(htmlspecialchars($not->getCoeff()));
+    }
+
+    $user = new Utilisateurs();
+    $user->setIdUtilisateur($_SESSION["id"]);
+    $datas["user"]= $user->selectAll();
+    
+    if(isset($_GET['id'])) {
+        $user->setIdUtilisateur($_GET['id']);
+        $use = $user->select();
+        $datas["user"]=$use;
+    }
+
+    foreach($datas["user"] as &$com){
+        $com->setPseudo(htmlspecialchars($com->getPseudo()));
+        $com->setPassword(htmlspecialchars($com->getPassword()));
+        $com->setNom(htmlspecialchars($com->getNom()));
+        $com->setPrenom(htmlspecialchars($com->getPrenom()));
+        $com->setAdresse(htmlspecialchars($com->getAdresse()));
+    }
+
+    $matiere = new Matiere();
+    $datas["matiere"]= $matiere->select();
+    
+    if(isset($_GET['id'])) {
+        $matiere->setIdMatiere($_GET['id']);
+        $matiere1 = $matiere->select();
+        $datas["matiere"]=$matiere1;
+    }
 
 
-// ------------------------------------------------------------------------------------
+    return ["template" => "allnotes.php", "datas" => $datas];
+};
+
 // Fonctionnalité(s) redirigées :
 
 // La fonction insertUser permet d'inserer un nouvel utilisateur dans la base de données
@@ -312,7 +443,9 @@ var_dump($user);
         $pseudo= isset($_POST['pseudo'])? $_POST['pseudo'] : "null";
         $password= isset($_POST['password'])? $_POST['password'] : "null";
         $_SESSION['pseudo']=$pseudo;
-        $_SESSION['password']=$password;
+        $_SESSION['password']=$password;        
+        $_SESSION["nom"]=$nom;
+        $_SESSION["prenom"]=$prenom;
 }
 header('Location:index.php');
 }else {
@@ -333,6 +466,8 @@ function connectUser() {
             $_SESSION['role']= $reponse['role'];
             $_SESSION['pseudo']= $reponse['pseudo'];
             $_SESSION['password']=$reponse['password'];
+            $_SESSION['nom']= $reponse['nom'];
+            $_SESSION['prenom']=$reponse['prenom'];
             header('Location:index.php?route=membre');
         }else {
             header('Location:index.php');
@@ -396,9 +531,9 @@ function insertComment() {
         $comment->insert();
         var_dump($comment);
     } 
-    header('Location:index.php?route=comment');
+    header('Location:index.php?route=all_cours');
     } else {
-        header('Location:index.php?route=comment');
+        header('Location:index.php?route=all_cours');
     }
 }
 
@@ -484,6 +619,85 @@ function deleteCours(){
     header('Location:index.php?route=cours');
 }
 
+// La fonction insertCours permet d'inserer un nouveau cours dans la base de données
+function insertNote() {
+        $note = new Notes();
+        $note-> setIdUtilisateur($_SESSION['id']);
+        $note-> setEleve($_POST['eleve']);
+        $note-> setNote($_POST['note']);
+        $note-> setMatiere($_POST['matiere']);
+        $note-> setCoeff($_POST['coeff']);
+        $note->insert();
+        var_dump($note);
+    header('Location:index.php?route=notes');
+}
+
+// La fonction updateCours permet de modifier un cours dans la base de données
+function updateNote(){
+    $note = new Notes();
+    $note-> setIdUtilisateur($_SESSION['id']);
+    $note-> setEleve($_POST['eleve']);
+    $note-> setNote($_POST['note']);
+    $note-> setMatiere($_POST['matiere']);
+    $note-> setCoeff($_POST['coeff']);
+    $note->update();
+    var_dump($note);
+    header('Location:index.php?route=notes');
+
+}
+
+// La fonction updateCours permet de modifier un cours dans la base de données
+function updateAllNote(){
+    $note = new Notes();
+    $note-> setIdUtilisateur($_SESSION['id']);
+    $note-> setEleve($_POST['eleve']);
+    $note-> setNote($_POST['note']);
+    $note-> setMatiere($_POST['matiere']);
+    $note-> setCoeff($_POST['coeff']);
+    $note->update();
+    var_dump($note);
+    header('Location:index.php?route=all_notes');
+
+}
+
+// La fonction deleteCours permet de supprimer un cours dans la base de données
+function deleteNote(){
+    $note = new Notes();
+    $note-> setIdNote($_REQUEST["id"]);
+    var_dump($note);
+    $note->delete();
+    var_dump($note);
+    header('Location:index.php?route=notes');
+}
+
+function deleteAllNote(){
+    $note = new Notes();
+    $note-> setIdNote($_REQUEST["id"]);
+    var_dump($note);
+    $note->delete();
+    var_dump($note);
+    header('Location:index.php?route=all_notes');
+}
+
+function insertTchat(){
+
+try
+{
+	$bdd = new PDO('mysql:host=localhost;dbname=plateforme', 'root', '');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
+// Insertion du message à l'aide d'une requête préparée
+$req = $bdd->prepare('INSERT INTO minichat (pseudo, message, date) VALUES(?, ?, NOW())');
+$req->execute(array($_SESSION['pseudo'], $_POST['message']));
+
+// Redirection du visiteur vers la page du minichat
+header('Location:index.php?route=tchat');
+}
+
 // ------------------------------------------------------------------------------------
 // 4. TEMPLATE
 // Affichage du système de templates HTML  
@@ -498,6 +712,7 @@ function deleteCours(){
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>La Plateforme</title>
 </head>
+<?php require "html/menu.php"?>
 <body>
     <?php require "views/{$view['template']}";?>
  

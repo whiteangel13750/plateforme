@@ -4,31 +4,6 @@ $user = $view["datas"]["user"];
 
 <!-- Vue qui permet d'afficher l'utilisateur, de les modifier et de les supprimer -->
 <?php require "securite.php"?>
-<nav>
-            <div class="top-bar">
-                <div class="top-bar-left">
-                  <ul class="dropdown menu" data-dropdown-menu>
-                            <li class="menu-text">
-                            <li><a href="index.php?route=membre">Accueil</a></li>
-                            <li><a href="index.php?route=cours">Mes cours</a></li>
-                            <li><a href="index.php?route=calendrier">Agenda</a></li>
-                            <li><a href="index.php?route=user">Mon profil</a></li>
-                            <?php 
-                        if ($_SESSION['role'] == 'Enfant'){
-                        require "html/menueleve.html";
-
-                        } else if($_SESSION['role'] == 'Professeur'){
-                        require "html/menuprof.html";
-                        
-                        } else {
-                        require "html/menuparent.html";
-                        }
-                        ?>
-                        <li><a href="index.php?route=deconnect">Me deconnecter</a></li>
-                    </ul>
-                </div>
-            </div>
-    </nav>
 
  <h2>Mon Profil</h2>
 
@@ -61,8 +36,8 @@ $user = $view["datas"]["user"];
    </section>
 
 <section class="row bg-light">
-<h3>Suppression du compte</h3>
 <div class="col-6">
+<h3>Suppression du compte</h3>
 <p><button class="button" data-open="suppression">Suppression de votre compte</button></p>
 <div class="reveal" id="suppression" data-reveal>
   <p class="lead">Pour supprimer votre compte, il faudra supprimer vos posts. Ensuite, vous pourrez supprimer votre compte.</p>

@@ -4,31 +4,6 @@ $cou = $view["datas"]["cours"];
 ?>
 
 <!-- Vue qui permet d'afficher les cours de l'utilisateur, de les modifier et de les supprimer -->
-    <nav>
-            <div class="top-bar">
-                <div class="top-bar-left">
-                  <ul class="dropdown menu" data-dropdown-menu>
-                            <li class="menu-text">
-                            <li><a href="index.php?route=membre">Accueil</a></li>
-                            <li><a href="index.php?route=cours">Mes cours</a></li>
-                            <li><a href="index.php?route=calendrier">Agenda</a></li>
-                            <li><a href="index.php?route=user">Mon profil</a></li>
-                            <?php 
-                        if ($_SESSION['role'] == 'Enfant'){
-                        require "html/menueleve.html";
-
-                        } else if($_SESSION['role'] == 'Professeur'){
-                        require "html/menuprof.html";
-                        
-                        } else {
-                        require "html/menuparent.html";
-                        }
-                        ?>
-                        <li><a href="index.php?route=deconnect">Me deconnecter</a></li>
-                    </ul>
-                </div>
-            </div>
-    </nav>
 
 <section class="row bg-light">
  <div class="col-6">
@@ -56,6 +31,7 @@ $cou = $view["datas"]["cours"];
     </section>
 
     <h2>Mes Cours </h2>
+
 <section>
 <?php foreach ($cou as $cours) : ?>
 <div class="col-5">
@@ -70,6 +46,6 @@ $cou = $view["datas"]["cours"];
     </div>
   </div>
 <a href="index.php?route=delete_cours&id=<?= $cours->getIdCours()?>">Supprimer</a>
-</section>
 <?php endforeach ?>
+</section>
 

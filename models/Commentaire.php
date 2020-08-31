@@ -1,8 +1,5 @@
 <?php
 
-// On requiert le fichier utilisateurs.php pour permettre d'ajouter les informations utilisateurs à nos taches
-require 'Utilisateurs.php';
-
 // La classe instancie une nouvelle tache. Elle est liée à DbConnect qui permet de lier la base de donnée à la classe. 
 // Elle requiert les méthodes afin d'agrémenter la base
 class Commentaire extends Dbconnect {
@@ -62,8 +59,8 @@ public function selectAll(){
         foreach($datas as $data) {
             $current = new Commentaire();
             $current->setIdUtilisateur($data['ID_USER']);
-                $current->setIdComment($data['ID_COMMENT']);
-                $current->setDescription($data['DESCRIPTION']);
+            $current->setIdComment($data['ID_COMMENT']);
+            $current->setDescription($data['DESCRIPTION']);
             array_push($tab, $current);
             }
             return $tab;

@@ -199,3 +199,28 @@ margin-left : 15%;}
 .alert {
     color: red;
 }
+
+#pseudo {
+    font-size: 15px;
+    color: royalblue;
+    font-weight: bold;
+}
+#msg {
+    border: 0.5px solid  rgba(0, 0, 0, 0.25);
+    font-size: 15px;
+    font-style: italic;
+}
+
+#tchat {
+    background-color: rgba(181, 221, 247, 0.25);
+    margin-top : 50px;
+    margin-left : 200px;
+    margin-right : 250px;
+    border: 0.5px solid  rgba(0, 0, 0, 0.25);
+}
+
+#message {
+    margin-right : 100px;
+    width : 147%;
+    height : 200%;
+}
