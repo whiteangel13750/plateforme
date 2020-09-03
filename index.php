@@ -76,6 +76,8 @@ switch($route) {
         break;   
     case 'insert_note' : $view=insertNote();
         break;
+    case 'insert_allnote' : $view=insertAllNote();
+        break;
     case "update_note" : updateNote();
         break;
     case "update_allnote" : updateAllNote();
@@ -406,13 +408,7 @@ function showAllNotes() {
     }
 
     $matiere = new Matiere();
-    $datas["matiere"]= $matiere->select();
-    
-    if(isset($_GET['id'])) {
-        $matiere->setIdMatiere($_GET['id']);
-        $matiere1 = $matiere->select();
-        $datas["matiere"]=$matiere1;
-    }
+    $datas["matiere"]= $matiere->selectAll();
 
 
     return ["template" => "allnotes.php", "datas" => $datas];
@@ -668,6 +664,18 @@ function deleteNote(){
     $note->delete();
     var_dump($note);
     header('Location:index.php?route=notes');
+}
+
+function insertAllNote() {
+    $note = new Notes();
+    $note-> setIdUtilisateur($_SESSION['id']);
+    $note-> setEleve($_POST['eleve']);
+    $note-> setNote($_POST['note']);
+    $note-> setMatiere($_POST['matiere']);
+    $note-> setCoeff($_POST['coeff']);
+    $note->insert();
+    var_dump($note);
+header('Location:index.php?route=all_notes');
 }
 
 function deleteAllNote(){

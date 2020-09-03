@@ -29,9 +29,9 @@ class Matiere extends Dbconnect {
 
    // Permet d'inserer un cours dans la base de donnée. 
     public function insert(){
-        $query = "INSERT INTO matiere (matiere) VALUES (:matiere)";
+        $query = "INSERT INTO matieres (matiere) VALUES (:matiere)";
         $result = $this->pdo->prepare($query);
-        $result->bindValue("matiere", $this->eleve, PDO::PARAM_STR);
+        $result->bindValue("matiere", $this->matiere, PDO::PARAM_STR);
         $result->execute();
         $this->idMatiere = $this->pdo->lastInsertId();
         var_dump($this);
@@ -40,7 +40,7 @@ class Matiere extends Dbconnect {
 
   // Permet de selectionner tous les cours dans la base de donnée. 
 public function selectAll(){
-        $query ="SELECT * FROM matiere;";
+        $query ="SELECT * FROM matieres;";
         $result = $this->pdo->prepare($query);
         $result->execute();
         $datas= $result->fetchAll();
@@ -49,8 +49,8 @@ public function selectAll(){
 
         foreach($datas as $data) {
             $current = new Matiere();
-            $current->setIdMatiere($data['ID_MATIERE']);
-            $current->setMatiere($data['MATIERE']);
+            $current->setIdMatiere($data['id_matiere']);
+            $current->setMatiere($data['matiere']);
             array_push($tab, $current);
             }
             return $tab;
@@ -59,7 +59,7 @@ public function selectAll(){
 
 // Permet de selectionner un cours dans la base de donnée. 
 public function select(){
-    $query = "SELECT * FROM matiere WHERE id_matiere = :idmatiere;";
+    $query = "SELECT * FROM matieres WHERE id_matiere = :idmatiere;";
     $result = $this->pdo->prepare($query);
     $result->bindValue(':idmatiere',$this->idMatiere,PDO::PARAM_INT);
     $result->execute();
@@ -69,9 +69,10 @@ public function select(){
         return $this;
     }
 
+
 // Permet de modifier un cours dans la base de donnée. 
     public function update(){
-            $query ="UPDATE `matiere` SET `matiere`=:matiere, WHERE ID_MATIERE = :idmatiere";
+            $query ="UPDATE `matieres` SET `matiere`=:matiere, WHERE id_matiere = :idmatiere";
             $result = $this->pdo->prepare($query);
             $result->bindValue(':idmatiere',$this->idMatiere,PDO::PARAM_INT);
             $result->bindValue(':matiere',$this->matiere,PDO::PARAM_STR);
@@ -81,7 +82,7 @@ public function select(){
 
 // Permet de supprimer un cours dans la base de donnée. 
     public function delete(){
-        $query ="DELETE FROM `matiere` WHERE ID_MATIERE = :idmatiere";
+        $query ="DELETE FROM `matieres` WHERE Iid_matiere = :idmatiere";
     $result = $this->pdo->prepare($query);
     $result->bindValue(':idmatiere',$this->idMatiere,PDO::PARAM_INT);
     $result->execute();

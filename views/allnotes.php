@@ -2,7 +2,6 @@
 $note = $view["datas"]["notes"];
 $user = $view["datas"]["user"];
 $mat = $view["datas"]["matiere"];
-var_dump($mat);
 ?>
 
 <!-- Vue qui permet d'afficher tous les commentaires de l'utilisateur de les modifier et de les supprimer -->
@@ -10,16 +9,16 @@ var_dump($mat);
 <section class="row bg-light">
 <div class="col-6">
 <h2> Ajout d'une note</h2>
-     <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_note"; ?>" method="post">
+     <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_allnote"; ?>" method="post">
             <div>
-             <label>Veuillez choisir un élève :
-        <select name="eleve" id="eleve">
-    <optgroup>
-    <?php foreach ($user as $use) : ?>
-     <?php echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
-      <?php endforeach ?>
-    </optgroup>
-    </select>
+            <label>Veuillez choisir un élève :
+            <select name="eleve" id="eleve">
+            <optgroup>
+            <?php foreach ($user as $use) : ?>
+            <?php echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
+            <?php endforeach ?>
+            </optgroup>
+            </select>
             </div>
              <div>
              <label> Note : </label>
@@ -30,13 +29,13 @@ var_dump($mat);
              <input type="number" id='coeff' name='coeff'><?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?></input>
              </div>
              <label>Matiere :
-            <select name="matiere" id="matiere">
-    <optgroup>
-    <?php foreach ($matiere as $mat) : ?>
-     <?php echo '<option value="'. $mat->getMatiere().' '.'</option>';?>
-      <?php endforeach ?>
-    </optgroup>
-    </select>
+              <select name="matiere" id="matiere">
+              <optgroup>
+              <?php foreach ($mat as $mati) : ?>
+                <?php echo '<option value="'. $mati->getMatiere().'">' . $mati->getMatiere() . '</option>';?>
+            <?php endforeach ?>
+              </optgroup>
+              </select>
              <?=isset($view['datas']['not'])? "<input type='hidden' name='idNote' value='".$view['datas']['not']->getIdNote()."'>" : ""; ?>
              <div>
            <input type='submit' id='valider' value='<?=isset($view['datas']['not'])? "Modifier" : "Ajouter"; ?>'>

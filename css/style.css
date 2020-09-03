@@ -116,7 +116,7 @@ h1.recipe-head {
 .col-5 { width: 41.66%; }
 .col-6 { width: calc(50% - 4em);
 margin-left : 15%;} 
-.col-7 { width: 58.33%; }
+.col-7 { width: 50%;}
 .col-8 { width: 66.66%; }
 .col-9 { width: 75%; }
 .col-10 { width: 83.33%; }
@@ -200,27 +200,51 @@ margin-left : 15%;}
     color: red;
 }
 
-#pseudo {
-    font-size: 15px;
-    color: royalblue;
-    font-weight: bold;
+#pseudo3 {
+    margin-left : 50%;
+    font-size: 12px;
+    color: gray;
 }
 #msg {
+    margin-left : 50%;
+    padding: 7px;
+    background-color: rgb(7, 197, 7);
+    color : white;
     border: 0.5px solid  rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(black, 0.2);
+    border-radius : 2px;
     font-size: 15px;
     font-style: italic;
 }
 
 #tchat {
-    background-color: rgba(181, 221, 247, 0.25);
     margin-top : 50px;
     margin-left : 200px;
     margin-right : 250px;
     border: 0.5px solid  rgba(0, 0, 0, 0.25);
 }
 
-#message {
-    margin-right : 100px;
-    width : 147%;
-    height : 200%;
+#pseudo4 {
+    margin-right : 50%;
+    font-size: 12px;
+    color: gray;
+}
+#msg2 {
+    margin-right : 50%;
+    padding: 7px;
+    background-color:rgb(128, 128, 128, 0.25);
+    border: 0.5px solid  rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(black, 0.2);
+    border-radius : 2px;
+    font-size: 15px;
+    font-style: italic;
+}
+
+#imgcours {
+    width : 40%;
+}
+
+#figtext {
+    z-index : 2000;
+    margin-top : -20px;
 }
