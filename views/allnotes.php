@@ -2,6 +2,7 @@
 $note = $view["datas"]["notes"];
 $user = $view["datas"]["user"];
 $mat = $view["datas"]["matiere"];
+
 ?>
 
 <!-- Vue qui permet d'afficher tous les commentaires de l'utilisateur de les modifier et de les supprimer -->
@@ -12,10 +13,10 @@ $mat = $view["datas"]["matiere"];
      <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_allnote"; ?>" method="post">
             <div>
             <label>Veuillez choisir le nom de l'élève:
-            <select name="eleve" id="eleve">
-            <?php foreach ($user as $use) : ?>
-            <?php $selected =($use->getIdUser() == $view['data']['not']->getIdNote()) ? $selected :  ""?>       
-            <?php echo '<option selected="'.$selected.'" value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
+            <select name="eleve" id="eleve"> 
+            <?php foreach ($user as $use) : ?>  
+            <?php $selected=($use->getIdUtilisateur() == $view['datas']['not']->getIdUtilisateur()) ? "selected" : ""; 
+            echo '<option value="'. $use->getNom().' '. $use->getPrenom().'""'.$selected.'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
             <?php endforeach ?>
             </select>
             </label>

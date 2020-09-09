@@ -248,11 +248,3 @@ margin-left : 15%;}
     text-align : center;
     background-color:rgba(10,10,10,0.5); 
 }
-
-.top-bar ul {
-    background-color : gold;
-}
-
-.top-bar, .top-bar ul{
-    background-color : gold;
-}
