@@ -3,7 +3,6 @@ $user = $view["datas"]["user"];
 ?>
 
 <!-- Vue qui permet d'afficher l'utilisateur, de les modifier et de les supprimer -->
-<?php require "securite.php"?>
 
  <h2>Mon Profil</h2>
 

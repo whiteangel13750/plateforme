@@ -47,6 +47,8 @@
 
   <div class="col-6">
     <h3>Se connecter</h3>
+    <?php $token=mkToken(uniqid());
+     $_SESSION['token']=$token;?>
      <form action="index.php?route=connect_user" method="post">
         <div>
         <label> Pseudo </label>
@@ -56,6 +58,7 @@
         <label> Mot de Passe </label>
         <input type='password' id='password1' name='password' placeholder="Votre mot de passe" required='required'>
         </div>
+      <input type='hidden' name='token' value='<?=$token?>'>
         <div>
       <input type='submit' id='connexion' value='Connexion'>
       </div>

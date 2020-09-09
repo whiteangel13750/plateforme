@@ -11,31 +11,31 @@ $mat = $view["datas"]["matiere"];
 <h2> Ajout d'une note</h2>
      <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_allnote"; ?>" method="post">
             <div>
-            <label>Veuillez choisir un élève :
+            <label>Veuillez choisir le nom de l'élève:
             <select name="eleve" id="eleve">
-            <optgroup>
             <?php foreach ($user as $use) : ?>
-            <?php echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
+            <?php $selected =($use->getIdUser() == $view['data']['not']->getIdNote()) ? $selected :  ""?>       
+            <?php echo '<option selected="'.$selected.'" value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
             <?php endforeach ?>
-            </optgroup>
             </select>
+            </label>
             </div>
              <div>
              <label> Note : </label>
-             <input type="number" id='note' name='note'><?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?></input>
+             <input type="number" id='note' name='note' value='<?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?>'>
              </div>
              <div>
              <label> Coefficient : </label>
-             <input type="number" id='coeff' name='coeff'><?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?></input>
+             <input type="number" id='coeff' name='coeff' value='<?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?>'>
              </div>
-             <label>Matiere :
+             <div>
+             <label>Matiere :</label>
               <select name="matiere" id="matiere">
-              <optgroup>
               <?php foreach ($mat as $mati) : ?>
                 <?php echo '<option value="'. $mati->getMatiere().'">' . $mati->getMatiere() . '</option>';?>
             <?php endforeach ?>
-              </optgroup>
               </select>
+              </div>
              <?=isset($view['datas']['not'])? "<input type='hidden' name='idNote' value='".$view['datas']['not']->getIdNote()."'>" : ""; ?>
              <div>
            <input type='submit' id='valider' value='<?=isset($view['datas']['not'])? "Modifier" : "Ajouter"; ?>'>
