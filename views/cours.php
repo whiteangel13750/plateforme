@@ -1,5 +1,6 @@
 <?php
 $cou = $view["datas"]["cours"];
+$mat = $view["datas"]["matiere"];
 
 ?>
 
@@ -17,8 +18,13 @@ $cou = $view["datas"]["cours"];
              <input type="text" id='image' name='image' placeholder="Image du cours" value="<?=isset($view['datas']['cou'])? $view['datas']['cou']->getImage() : "";?>">
              </div>
              <div>
-             <input type="text"  id='matiere' name='matiere' placeholder="Matiere du cours" value="<?=isset($view['datas']['cou'])? $view['datas']['cou']->getMatiere() : ""; ?>">
-             </div>
+             <label>Matiere :</label>
+              <select name="idmatiere" id="idmatiere">
+              <?php foreach ($mat as $mati) : ?>
+                <?php echo '<option value="'. $mati->getIdMatiere().'">' . $mati->getMatiere() . '</option>';?>
+            <?php endforeach ?>
+            </select>
+              </div>
              <div>
              <textarea  id='contenu' name='contenu'><?=isset($view['datas']['cou'])? $view['datas']['cou']->getContenu() : "Contenu du cours"; ?></textarea>
              </div>
@@ -44,9 +50,8 @@ $cou = $view["datas"]["cours"];
                           </figure>
                             <div class="full reveal" id="cours-<?= $cours->getIdCours()?>" data-reveal>
                                   <div class="img-block">
-                                      <img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>">
+                                      <img src="<?= $cours->getImage()?>" alt="<?= $cours->getIdMatiere()?>">
                                    </div>
-                                        <h3><?= $cours->getMatiere()?></h3>
                                         <p><?= $cours->getContenu()?></p>
                                     <button class="close-button" data-close aria-label="Close modal" type="button">
                                         <span aria-hidden="true">&times;</span>

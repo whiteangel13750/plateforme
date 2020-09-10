@@ -1,6 +1,7 @@
 <?php
 $cou = $view["datas"]["cours"];
 $comm = $view["datas"]["comment"];
+$mat = $view["datas"]["matiere"];
 
 ?>
 
@@ -20,9 +21,8 @@ $comm = $view["datas"]["comment"];
           </figure>
           <div class="full reveal" id="cours-<?= $cours->getIdCours()?>" data-reveal>
             <div class="img-block">
-              <img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>">
+              <img src="<?= $cours->getImage()?>" alt="">
             </div>
-            <h3><?= $cours->getMatiere()?></h3>
             <p><?= $cours->getContenu()?></p>
             <h2>Les Commentaires </h2>
             <ul>

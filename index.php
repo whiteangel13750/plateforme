@@ -269,9 +269,12 @@ function showCours() {
 
         $cou->setTitre(htmlspecialchars($cou->getTitre()));
         $cou->setImage(htmlspecialchars($cou->getImage()));
-        $cou->setMatiere(htmlspecialchars($cou->getMatiere()));
         $cou->setContenu(htmlspecialchars($cou->getContenu()));
     }
+
+    $matiere = new Matiere();
+    $datas["matiere"]= $matiere->selectAll();
+
 
     return ["template" => "cours.php", "datas" => $datas];
 }
@@ -301,7 +304,6 @@ function showAllCours() {
 
         $cou->setTitre(htmlspecialchars($cou->getTitre()));
         $cou->setImage(htmlspecialchars($cou->getImage()));
-        $cou->setMatiere(htmlspecialchars($cou->getMatiere()));
         $cou->setContenu(htmlspecialchars($cou->getContenu()));
     }
 
@@ -326,6 +328,10 @@ function showAllCours() {
     foreach($datas["comment"] as &$com){
         $com->setdescription(htmlspecialchars($com->getdescription()));
     }
+
+    $matiere = new Matiere();
+    $datas["matiere"]= $matiere->selectAll();
+
 
     return ["template" => "allcours.php", "datas" => $datas];
 }
@@ -626,17 +632,19 @@ function deleteAllComment(){
 
 // La fonction insertCours permet d'inserer un nouveau cours dans la base de données
 function insertCours() {
-    if(!empty($_POST['titre']) && !empty($_POST['matiere']) && !empty($_POST['contenu']) && !empty($_POST['image'])){
+    if(!empty($_POST['titre']) && !empty($_POST['contenu']) && !empty($_POST['image'])){
         $cours = new Cours();
         $cours-> setIdUtilisateur($_SESSION['id']);
         $cours-> setTitre($_POST['titre']);
-        $cours-> setMatiere($_POST['matiere']);
         $cours-> setContenu($_POST['contenu']);
         $cours-> setImage($_POST['image']);
+        $cours-> setIdMatiere($_POST['idmatiere']);
         $cours->insert();
-        var_dump($cours);
+
     } 
-    header('Location:index.php?route=cours');
+    var_dump($_POST);
+    var_dump($cours);
+    // header('Location:index.php?route=cours');
 }
 
 // La fonction updateCours permet de modifier un cours dans la base de données
@@ -645,7 +653,7 @@ function updateCours(){
     $cours-> setIdCours($_POST["idCours"]);
     $cours-> setIdUtilisateur($_SESSION['id']);
     $cours-> setTitre($_POST['titre']);
-    $cours-> setMatiere($_POST['matiere']);
+    $cours-> setIdMatiere($_POST['idmatiere']);
     $cours-> setContenu($_POST['contenu']);
     $cours-> setImage($_POST['image']);
     $cours->update();
