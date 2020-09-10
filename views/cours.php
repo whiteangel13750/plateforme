@@ -1,5 +1,6 @@
 <?php
 $cou = $view["datas"]["cours"];
+$mat = $view["datas"]["matiere"];
 
 ?>
 
@@ -17,8 +18,13 @@ $cou = $view["datas"]["cours"];
              <input type="text" id='image' name='image' placeholder="Image du cours" value="<?=isset($view['datas']['cou'])? $view['datas']['cou']->getImage() : "";?>">
              </div>
              <div>
-             <input type="text"  id='matiere' name='matiere' placeholder="Matiere du cours" value="<?=isset($view['datas']['cou'])? $view['datas']['cou']->getMatiere() : ""; ?>">
-             </div>
+             <label>Matiere :</label>
+              <select name="idmatiere" id="idmatiere">
+              <?php foreach ($mat as $mati) : ?>
+                <?php echo '<option value="'. $mati->getIdMatiere().'">' . $mati->getMatiere() . '</option>';?>
+            <?php endforeach ?>
+            </select>
+              </div>
              <div>
              <textarea  id='contenu' name='contenu'><?=isset($view['datas']['cou'])? $view['datas']['cou']->getContenu() : "Contenu du cours"; ?></textarea>
              </div>
@@ -32,20 +38,29 @@ $cou = $view["datas"]["cours"];
 
     <h2>Mes Cours </h2>
 
-<section>
-<?php foreach ($cou as $cours) : ?>
-<div class="col-5">
-<p><button class="button" data-open="cours"><?= $cours->getTitre()?></button></p>
-<div class="full reveal" id="cours" data-reveal>
-  <div class="img-block"><img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>"></div>
-  <h3><?= $cours->getMatiere()?></h3>
-  <p><?= $cours->getContenu()?></p>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<section class="categories">
+  <div class="categories">
+    <div class="grid-x grid-padding-x">
+        <?php foreach ($cou as $cours) : ?>
+            <a href="index.php?route=cours&id=<?= $cours->getIdCours()?>">
+                <article class="small-1 medium-6 large-4">
+                          <figure>
+                              <img src="<?= $cours->getImage()?>" alt="" data-open="cours-<?= $cours->getIdCours()?>">
+                              <figcaption class="figtext"><?= $cours->getTitre()?></figcaption>
+                          </figure>
+                            <div class="full reveal" id="cours-<?= $cours->getIdCours()?>" data-reveal>
+                                  <div class="img-block">
+                                      <img src="<?= $cours->getImage()?>" alt="<?= $cours->getIdMatiere()?>">
+                                   </div>
+                                        <p><?= $cours->getContenu()?></p>
+                                    <button class="close-button" data-close aria-label="Close modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                               </div>
+                               <a href="index.php?route=delete_cours&id=<?= $cours->getIdCours()?>">Supprimer</a>
+                      </article>
+          <?php endforeach ?>
+        </div>
     </div>
-  </div>
-<a href="index.php?route=delete_cours&id=<?= $cours->getIdCours()?>">Supprimer</a>
-<?php endforeach ?>
 </section>
 

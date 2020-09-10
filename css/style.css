@@ -240,11 +240,11 @@ margin-left : 15%;}
     font-style: italic;
 }
 
-#imgcours {
-    width : 40%;
-}
-
-#figtext {
-    z-index : 2000;
-    margin-top : -20px;
+.figtext {
+    box-shadow: 0 1px 2px rgba(black, 0.2);
+    color : white;
+    margin-top : -25px;
+    position: absolute;
+    text-align : center;
+    background-color:rgba(10,10,10,0.5); 
 }

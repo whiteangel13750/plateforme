@@ -1,8 +1,10 @@
 <?php
-$note = $view["datas"]["notes"];
+$notes = $view["datas"]["notes"];
+$not = $view["datas"]["not"]?? null;
 $users = $view["datas"]["users"];
-$note = $view["datas"]["note"]?? null;
+$user = $view["datas"]["user"]?? null;
 $mat = $view["datas"]["matiere"];
+
 ?>
 
 <!-- Vue qui permet d'afficher tous les commentaires de l'utilisateur de les modifier et de les supprimer -->
@@ -12,34 +14,32 @@ $mat = $view["datas"]["matiere"];
 <h2> Ajout d'une note</h2>
      <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_allnote"; ?>" method="post">
             <div>
-            <label>Veuillez choisir un élève :
-            <select name="eleve" id="eleve">
-            <optgroup>
-            <?php foreach ($users as $use) : ?>
-              <?php 
-                $selected = ($use)
-                echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';
-              ?>
+            <label>Veuillez choisir le nom de l'élève:
+            <select name="ideleve" id="ideleve"> 
+            <?php foreach ($users as $use) : ?> 
+            <?php 
+            // $selected=($use->getIdUtilisateur() == $notation->getIdEleve()) ? "selected" : ""; 
+            echo '<option value="'.$use->getIdUtilisateur().'""'.$selected.'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
             <?php endforeach ?>
-            </optgroup>
             </select>
+            </label>
             </div>
              <div>
              <label> Note : </label>
-             <input type="number" id='note' name='note' value="<?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?>">
+             <input type="number" id='note' name='note' value='<?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?>'>
              </div>
              <div>
              <label> Coefficient : </label>
-             <input type="number" id='coeff' name='coeff' value="<?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?>">
+             <input type="number" id='coeff' name='coeff' value='<?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?>'>
              </div>
-             <label>Matiere :
-              <select name="matiere" id="matiere">
-              <optgroup>
+             <div>
+             <label>Matiere :</label>
+              <select name="idmatiere" id="idmatiere">
               <?php foreach ($mat as $mati) : ?>
-                <?php echo '<option value="'. $mati->getMatiere().'">' . $mati->getMatiere() . '</option>';?>
+                <?php echo '<option value="'. $mati->getIdMatiere().'">' . $mati->getMatiere() . '</option>';?>
             <?php endforeach ?>
-              </optgroup>
               </select>
+              </div>
              <?=isset($view['datas']['not'])? "<input type='hidden' name='idNote' value='".$view['datas']['not']->getIdNote()."'>" : ""; ?>
              <div>
            <input type='submit' id='valider' value='<?=isset($view['datas']['not'])? "Modifier" : "Ajouter"; ?>'>
@@ -50,7 +50,7 @@ $mat = $view["datas"]["matiere"];
 
 <h2>Les Notes </h2>
 <table>
-<?php foreach ($note as $notation) : ?>
+<?php foreach ($notes as $notation) : ?>
 <tr>
 <th>Eleve</th>
 <th>Note</th>
@@ -59,10 +59,10 @@ $mat = $view["datas"]["matiere"];
 <th>Supression</th>
 </tr>
 <tr>
-<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getEleve()?></a></td>
+<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getIdEleve()?></a></td>
 <td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getNote()?></a></td>
 <td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getCoeff()?></a></td>
-<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getMatiere()?></a></td>
+<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getIdMatiere()?></a></td>
 <td><a href="index.php?route=delete_allnote&id=<?= $notation->getIdNote()?>">Supprimer</a></td>
 <?php endforeach ?>
 </table>

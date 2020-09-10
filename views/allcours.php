@@ -1,14 +1,18 @@
 <?php
 $cou = $view["datas"]["cours"];
 $comm = $view["datas"]["comment"];
+$mat = $view["datas"]["matiere"];
+
 ?>
 
 <!-- Vue qui permet d'afficher tous les cours des utilisateurs -->
 
+
 <h2>Mes Cours </h2>
+
 <section class="categories">
   <div class="categories">
-    <div class="grid-x grid-padding-x" style='border: 1px solid red'>
+    <div class="grid-x grid-padding-x">
       <?php foreach ($cou as $cours) : ?>
         <article class="small-1 medium-6 large-4">
           <figure>
@@ -17,18 +21,15 @@ $comm = $view["datas"]["comment"];
           </figure>
           <div class="full reveal" id="cours-<?= $cours->getIdCours()?>" data-reveal>
             <div class="img-block">
-              <img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>">
+              <img src="<?= $cours->getImage()?>" alt="">
             </div>
-            <h3><?= $cours->getMatiere()?></h3>
             <p><?= $cours->getContenu()?></p>
-
             <h2>Les Commentaires </h2>
             <ul>
               <?php foreach ($comm as $comment) : ?>
                 <li><a href="index.php?route=all_comment&id=<?= $comment->getIdComment()?>"><?= $comment->getDescription()?></a><a href="index.php?route=delete_allcomment&id=<?= $comment->getIdComment()?>">Supprimer</a></li>
               <?php endforeach ?>
             </ul>
-
             <h2> Ajout d'un commentaire</h2>
             <form action="index.php?route=<?=isset($view['datas']['com'])? "update_comment" : "insert_comment"; ?>" method="post">
               <div>
@@ -40,7 +41,6 @@ $comm = $view["datas"]["comment"];
                 <input type='submit' id='valider' value='<?=isset($view['datas']['com'])? "Modifier" : "Ajouter"; ?>'>
               </div>
             </form>
-
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
