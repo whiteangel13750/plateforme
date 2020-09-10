@@ -1,6 +1,7 @@
 <?php
 $note = $view["datas"]["notes"];
-$user = $view["datas"]["user"];
+$users = $view["datas"]["users"];
+$note = $view["datas"]["note"]?? null;
 $mat = $view["datas"]["matiere"];
 ?>
 
@@ -14,19 +15,22 @@ $mat = $view["datas"]["matiere"];
             <label>Veuillez choisir un élève :
             <select name="eleve" id="eleve">
             <optgroup>
-            <?php foreach ($user as $use) : ?>
-            <?php echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
+            <?php foreach ($users as $use) : ?>
+              <?php 
+                $selected = ($use)
+                echo '<option value="'. $use->getNom().' '. $use->getPrenom().'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';
+              ?>
             <?php endforeach ?>
             </optgroup>
             </select>
             </div>
              <div>
              <label> Note : </label>
-             <input type="number" id='note' name='note'><?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?></input>
+             <input type="number" id='note' name='note' value="<?=isset($view['datas']['not'])? $view['datas']['not']->getNote() : ""; ?>">
              </div>
              <div>
              <label> Coefficient : </label>
-             <input type="number" id='coeff' name='coeff'><?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?></input>
+             <input type="number" id='coeff' name='coeff' value="<?=isset($view['datas']['not'])? $view['datas']['not']->getCoeff() : ""; ?>">
              </div>
              <label>Matiere :
               <select name="matiere" id="matiere">

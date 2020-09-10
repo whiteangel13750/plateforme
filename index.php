@@ -364,16 +364,10 @@ function showNotes() {
 }
 
 function showAllNotes() {
+    
     $datas = [];
     $notes = new Notes();
-    $notes->setIdUtilisateur($_SESSION["id"]);
     $datas["notes"]= $notes->selectAll();
-
-    if(isset($_GET['id'])) {
-        $notes->setIdNote($_GET['id']);
-        $notes1 = $notes->select();
-        $datas["not"]=$notes1;
-    }
 
     foreach($datas["notes"] as &$not){
         $utilisateur = new Utilisateurs();
@@ -391,15 +385,15 @@ function showAllNotes() {
 
     $user = new Utilisateurs();
     $user->setIdUtilisateur($_SESSION["id"]);
-    $datas["user"]= $user->selectAll();
+    $datas["users"]= $user->selectAll();
     
     if(isset($_GET['id'])) {
-        $user->setIdUtilisateur($_GET['id']);
-        $use = $user->select();
-        $datas["user"]=$use;
+        $not->setIdNote($_GET['id']);
+        $note = $not->select();
+        $datas["note"] = $note;
     }
 
-    foreach($datas["user"] as &$com){
+    foreach($datas["users"] as &$com){
         $com->setPseudo(htmlspecialchars($com->getPseudo()));
         $com->setPassword(htmlspecialchars($com->getPassword()));
         $com->setNom(htmlspecialchars($com->getNom()));
@@ -410,6 +404,7 @@ function showAllNotes() {
     $matiere = new Matiere();
     $datas["matiere"]= $matiere->selectAll();
 
+    var_dump($datas);
 
     return ["template" => "allnotes.php", "datas" => $datas];
 };
