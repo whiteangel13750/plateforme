@@ -1,6 +1,8 @@
 <?php
-$note = $view["datas"]["notes"];
-$user = $view["datas"]["user"];
+$notes = $view["datas"]["notes"];
+$not = $view["datas"]["not"]?? null;
+$users = $view["datas"]["users"];
+$user = $view["datas"]["user"]?? null;
 $mat = $view["datas"]["matiere"];
 
 ?>
@@ -13,10 +15,11 @@ $mat = $view["datas"]["matiere"];
      <form action="index.php?route=<?=isset($view['datas']['not'])? "update_allnote" : "insert_allnote"; ?>" method="post">
             <div>
             <label>Veuillez choisir le nom de l'élève:
-            <select name="eleve" id="eleve"> 
-            <?php foreach ($user as $use) : ?>  
-            <?php $selected=($use->getIdUtilisateur() == $view['datas']['not']->getIdUtilisateur()) ? "selected" : ""; 
-            echo '<option value="'. $use->getNom().' '. $use->getPrenom().'""'.$selected.'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
+            <select name="ideleve" id="ideleve"> 
+            <?php foreach ($users as $use) : ?> 
+            <?php 
+            // $selected=($use->getIdUtilisateur() == $notation->getIdEleve()) ? "selected" : ""; 
+            echo '<option value="'.$use->getIdUtilisateur().'""'.$selected.'">' . $use->getNom() . ' ' . $use->getPrenom() .' (' .  $use->getRole() .')</option>';?>
             <?php endforeach ?>
             </select>
             </label>
@@ -31,9 +34,9 @@ $mat = $view["datas"]["matiere"];
              </div>
              <div>
              <label>Matiere :</label>
-              <select name="matiere" id="matiere">
+              <select name="idmatiere" id="idmatiere">
               <?php foreach ($mat as $mati) : ?>
-                <?php echo '<option value="'. $mati->getMatiere().'">' . $mati->getMatiere() . '</option>';?>
+                <?php echo '<option value="'. $mati->getIdMatiere().'">' . $mati->getMatiere() . '</option>';?>
             <?php endforeach ?>
               </select>
               </div>
@@ -47,7 +50,7 @@ $mat = $view["datas"]["matiere"];
 
 <h2>Les Notes </h2>
 <table>
-<?php foreach ($note as $notation) : ?>
+<?php foreach ($notes as $notation) : ?>
 <tr>
 <th>Eleve</th>
 <th>Note</th>
@@ -56,10 +59,10 @@ $mat = $view["datas"]["matiere"];
 <th>Supression</th>
 </tr>
 <tr>
-<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getEleve()?></a></td>
+<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getIdEleve()?></a></td>
 <td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getNote()?></a></td>
 <td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getCoeff()?></a></td>
-<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getMatiere()?></a></td>
+<td><a href="index.php?route=all_notes&id=<?= $notation->getIdNote()?>"><?= $notation->getIdMatiere()?></a></td>
 <td><a href="index.php?route=delete_allnote&id=<?= $notation->getIdNote()?>">Supprimer</a></td>
 <?php endforeach ?>
 </table>

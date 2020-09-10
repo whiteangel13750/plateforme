@@ -1,16 +1,13 @@
 <?php
 $cou = $view["datas"]["cours"];
 $comm = $view["datas"]["comment"];
-?>
 
+?>
 
 <!-- Vue qui permet d'afficher tous les cours des utilisateurs -->
-<?php if($_SESSION['role']=="Enfant" && $_SESSION['role']=="Professeur"){
-  echo("<h2>Mes Cours </h2>");
-} else {
-  echo ("<h2>Les cours de mon enfant </h2>");
-}
-?>
+
+
+<h2>Mes Cours </h2>
 
 <section class="categories">
   <div class="categories">

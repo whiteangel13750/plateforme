@@ -32,20 +32,30 @@ $cou = $view["datas"]["cours"];
 
     <h2>Mes Cours </h2>
 
-<section>
-<?php foreach ($cou as $cours) : ?>
-<div class="col-5">
-<p><button class="button" data-open="cours"><?= $cours->getTitre()?></button></p>
-<div class="full reveal" id="cours" data-reveal>
-  <div class="img-block"><img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>"></div>
-  <h3><?= $cours->getMatiere()?></h3>
-  <p><?= $cours->getContenu()?></p>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<section class="categories">
+  <div class="categories">
+    <div class="grid-x grid-padding-x">
+        <?php foreach ($cou as $cours) : ?>
+            <a href="index.php?route=cours&id=<?= $cours->getIdCours()?>">
+                <article class="small-1 medium-6 large-4">
+                          <figure>
+                              <img src="<?= $cours->getImage()?>" alt="" data-open="cours-<?= $cours->getIdCours()?>">
+                              <figcaption class="figtext"><?= $cours->getTitre()?></figcaption>
+                          </figure>
+                            <div class="full reveal" id="cours-<?= $cours->getIdCours()?>" data-reveal>
+                                  <div class="img-block">
+                                      <img src="<?= $cours->getImage()?>" alt="<?= $cours->getMatiere()?>">
+                                   </div>
+                                        <h3><?= $cours->getMatiere()?></h3>
+                                        <p><?= $cours->getContenu()?></p>
+                                    <button class="close-button" data-close aria-label="Close modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                               </div>
+                               <a href="index.php?route=delete_cours&id=<?= $cours->getIdCours()?>">Supprimer</a>
+                      </article>
+          <?php endforeach ?>
+        </div>
     </div>
-  </div>
-<a href="index.php?route=delete_cours&id=<?= $cours->getIdCours()?>">Supprimer</a>
-<?php endforeach ?>
 </section>
 

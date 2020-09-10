@@ -59,10 +59,11 @@ class Minitchat extends Dbconnect {
 
    // Permet d'inserer un cours dans la base de donnée. 
     public function insert(){
-        $query = "INSERT INTO minichat (pseudo, message, date)  VALUES (:pseudo, :message, NOW())";
+        $query = "INSERT INTO minichat (pseudo, message, date, id_user)  VALUES (:pseudo, :message, NOW(), :id)";
         $result = $this->pdo->prepare($query);
         $result->bindValue("pseudo", $this->pseudo, PDO::PARAM_STR);
         $result->bindValue("message", $this->message, PDO::PARAM_STR);
+        $result->bindValue("id", $this->idUtilisateur, PDO::PARAM_INT);
         $result->execute();
         $this->idMini = $this->pdo->lastInsertId();
         var_dump($this);
@@ -79,13 +80,16 @@ public function selectAll(){
 
         foreach($datas as $data) {
             $current = new Minitchat();
-            $current->setIdMini($data['id']);
+            $current->setIdMini($data['id_mini']);
             $current->setPseudo($data['pseudo']);
             $current->setMessage($data['message']);
             $current->setDate($data['date']);
+            $current->setIdUtilisateur($data['id_user']);
             array_push($tab, $current);
             }
             return $tab;
+
+            var_dump($current);
 
     }
 
@@ -96,7 +100,8 @@ public function select(){
     $result->bindValue(':idmini',$this->idMini,PDO::PARAM_INT);
     $result->execute();
     $data = $result->fetch();
-    $this->setIdMini($data['id']);
+    $this->setIdMini($data['id_mini']);
+    $this->setIdUtilisateur($data['id_user']);
     $this->setPseudo($data['pseudo']);
     $this->setMessage($data['message']);
     $this->setDate($data['date']);
@@ -105,12 +110,13 @@ public function select(){
 
 // Permet de modifier un cours dans la base de donnée. 
     public function update(){
-            $query ="UPDATE `minichat` SET `pseudo`=:pseudo,`message`=:message,`date`=:date, WHERE id= :idmini";
+            $query ="UPDATE `minichat` SET `pseudo`=:pseudo,`message`=:message,`date`=:date, `id_user`=:id, WHERE id= :idmini";
             $result = $this->pdo->prepare($query);
             $result->bindValue(':idmini',$this->idMini,PDO::PARAM_INT);
             $result->bindValue(':pseudo',$this->pseudo,PDO::PARAM_STR);
             $result->bindValue(':message',$this->message,PDO::PARAM_STR);
             $result->bindValue(':date',$this->date,PDO::PARAM_STR);
+            $result->bindValue(':id',$this->idUtilisateur,PDO::PARAM_INT);
             $result->execute();
             var_dump($result);
     }

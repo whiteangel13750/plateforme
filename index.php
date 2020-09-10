@@ -333,8 +333,8 @@ function showAllCours() {
 function showNotes() {
     $datas = [];
     $notes = new Notes();
-    $notes->setIdUtilisateur($_SESSION["id"]);
-    $datas["notes"]= $notes->selectByUser();
+    $notes->setIdProfesseur($_SESSION["id"]);
+    $datas["notes"]= $notes->selectByIdProfesseur();
     
     if(isset($_GET['id'])) {
         $notes->setIdNote($_GET['id']);
@@ -363,8 +363,8 @@ function showNotes() {
 function showAllNotes() {
     $datas = [];
     $notes = new Notes();
-    $notes->setIdUtilisateur($_SESSION["id"]);
-    $datas["notes"]= $notes->selectAll();
+    $notes->setIdProfesseur($_SESSION["id"]);
+    $datas["notes"]= $notes->selectByIdProfesseur();
 
     if(isset($_GET['id'])) {
         $notes->setIdNote($_GET['id']);
@@ -374,7 +374,7 @@ function showAllNotes() {
 
     foreach($datas["notes"] as &$not){
         $utilisateur = new Utilisateurs();
-        $utilisateur->setIdUtilisateur($not->getIdUtilisateur());
+        $utilisateur->setIdUtilisateur($not->getIdProfesseur());
         $user= $utilisateur->select();
         $not->user = $user;
     }
@@ -382,13 +382,12 @@ function showAllNotes() {
     foreach($datas["notes"] as &$not){
 
         $not->setNote(htmlspecialchars($not->getNote()));
-        $not->setMatiere(htmlspecialchars($not->getMatiere()));
         $not->setCoeff(htmlspecialchars($not->getCoeff()));
     }
 
     $user = new Utilisateurs();
     $user->setIdUtilisateur($_SESSION["id"]);
-    $datas["user"]= $user->selectAll();
+    $datas["users"]= $user->selectAll();
     
     if(isset($_GET['id'])) {
         $user->setIdUtilisateur($_GET['id']);
@@ -396,7 +395,7 @@ function showAllNotes() {
         $datas["user"]=$use;
     }
 
-    foreach($datas["user"] as &$com){
+    foreach($datas["users"] as &$com){
         $com->setPseudo(htmlspecialchars($com->getPseudo()));
         $com->setPassword(htmlspecialchars($com->getPassword()));
         $com->setNom(htmlspecialchars($com->getNom()));
@@ -668,10 +667,10 @@ function deleteCours(){
 // La fonction insertCours permet d'inserer un nouveau cours dans la base de données
 function insertNote() {
         $note = new Notes();
-        $note-> setIdUtilisateur($_SESSION['id']);
-        $note-> setEleve($_POST['eleve']);
+        $note-> setIdProfesseur($_SESSION['id']);
+        $note-> setIdEleve($_POST['ideleve']);
         $note-> setNote($_POST['note']);
-        $note-> setMatiere($_POST['matiere']);
+        $note-> setIdMatiere($_POST['idmatiere']);
         $note-> setCoeff($_POST['coeff']);
         $note->insert();
         var_dump($note);
@@ -681,10 +680,11 @@ function insertNote() {
 // La fonction updateCours permet de modifier un cours dans la base de données
 function updateNote(){
     $note = new Notes();
-    $note-> setIdUtilisateur($_SESSION['id']);
-    $note-> setEleve($_POST['eleve']);
+    $note-> setIdProfesseur($_SESSION['id']);
+    $note-> setIdEleve($_POST['ideleve']);
     $note-> setNote($_POST['note']);
-    $note-> setMatiere($_POST['matiere']);
+    $note-> setIdNote($_POST['idnote']);
+    $note-> setIdMatiere($_POST['idmatiere']);
     $note-> setCoeff($_POST['coeff']);
     $note->update();
     var_dump($note);
@@ -695,10 +695,11 @@ function updateNote(){
 // La fonction updateCours permet de modifier un cours dans la base de données
 function updateAllNote(){
     $note = new Notes();
-    $note-> setIdUtilisateur($_SESSION['id']);
-    $note-> setEleve($_POST['eleve']);
+    $note-> setIdProfesseur($_SESSION['id']);
+    $note-> setIdEleve($_POST['ideleve']);
     $note-> setNote($_POST['note']);
-    $note-> setMatiere($_POST['matiere']);
+    $note-> setIdNote($_POST['idnote']);
+    $note-> setIdMatiere($_POST['idmatiere']);
     $note-> setCoeff($_POST['coeff']);
     $note->update();
     var_dump($note);
@@ -718,10 +719,10 @@ function deleteNote(){
 
 function insertAllNote() {
     $note = new Notes();
-    $note-> setIdUtilisateur($_SESSION['id']);
-    $note-> setEleve($_POST['eleve']);
+    $note-> setIdProfesseur($_SESSION['id']);
+    $note-> setIdEleve($_POST['ideleve']);
     $note-> setNote($_POST['note']);
-    $note-> setMatiere($_POST['matiere']);
+    $note-> setIdMatiere($_POST['idmatiere']);
     $note-> setCoeff($_POST['coeff']);
     $note->insert();
     var_dump($note);
