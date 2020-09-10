@@ -43,7 +43,7 @@ $matieres = $view["datas"]["matieres"];
             <?php endif ?>
           </select>
           </div>
-          <?=isset($view['datas']['not'])? "<input type='hidden' name='idNote' value='".$view['datas']['not']->getIdNote()."'>" : ""; ?>
+          <?=isset($view['datas']['note'])? "<input type='hidden' name='idNote' value='".$view['datas']['note']->getIdNote()."'>" : ""; ?>
           <div>
            <input type='submit' id='valider' value='<?=isset($view['datas']['note'])? "Modifier" : "Ajouter"; ?>'>
            </div>

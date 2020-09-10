@@ -706,11 +706,13 @@ function updateNote(){
 
 // La fonction updateCours permet de modifier un cours dans la base de données
 function updateAllNote(){
+
+    var_dump($_POST);
     $note = new Notes();
     $note-> setIdProfesseur($_SESSION['id']);
     $note-> setIdEleve($_POST['ideleve']);
     $note-> setNote($_POST['note']);
-    $note-> setIdNote($_POST['idnote']);
+    $note-> setIdNote($_POST['idNote']);
     $note-> setIdMatiere($_POST['idmatiere']);
     $note-> setCoeff($_POST['coeff']);
     $note->update();

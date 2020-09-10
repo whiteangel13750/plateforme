@@ -190,6 +190,7 @@ public function select(){
             $result->bindValue("idprof", $this->idProfesseur, PDO::PARAM_INT);
             $result->bindValue("ideleve", $this->idEleve, PDO::PARAM_INT);
             $result->bindValue("idmatiere", $this->idMatiere, PDO::PARAM_INT);
+            $result->bindValue("idnote", $this->idNote, PDO::PARAM_INT);
             $result->execute();
             var_dump($result);
     }
