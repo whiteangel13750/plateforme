@@ -144,6 +144,15 @@ public function select(){
          return $data2;
         }
 
+    public function selectByRole(){
+        $query = "SELECT * FROM users WHERE role = :role;";
+        $result = $this->pdo->prepare($query);
+        $result->bindValue(':role', $this->role, PDO::PARAM_STR);
+        $result->execute();
+        $data = $result->fetchAll();
+        return $data;
+    }
+
 // Permet de modifier un utilisateur dans la base de donnée. 
     public function update(){
             

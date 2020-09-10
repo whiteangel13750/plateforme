@@ -6,7 +6,7 @@ session_start();
 // On requiere le fichier global qui correspond à la base de donnée
 require "conf/global.php";
 
-require "conf/securite.php";
+//require "conf/securite.php";
 
 // FRONT CONTROLLER -> Toutes les requêtes arrivent ici et sont traitées par le ROUTER
 // ------------------------------------------------------------------------------------
@@ -369,50 +369,54 @@ function showNotes() {
 function showAllNotes() {
     
     $datas = [];
+
+    // CAS 1 : Insertion
+    // $datas['notes'] -> Toutes les notes du professeur
     $notes = new Notes();
-<<<<<<< HEAD
-    $datas["notes"]= $notes->selectAll();
-=======
     $notes->setIdProfesseur($_SESSION["id"]);
     $datas["notes"]= $notes->selectByIdProfesseur();
->>>>>>> 62b4bb029b75dd10442bb26e545ed4bf0070591b
 
-    foreach($datas["notes"] as &$not){
-        $utilisateur = new Utilisateurs();
-        $utilisateur->setIdUtilisateur($not->getIdProfesseur());
-        $user= $utilisateur->select();
-        $not->user = $user;
+    foreach ($datas["notes"] as &$note) {
+        $eleve = new Utilisateurs();
+        $eleve->setIdUtilisateur($note->getIdEleve());
+        $eleve->select();
+
+        $matiere = new Matiere();
+        $matiere->setIdMatiere($note->getIdMatiere());
+        $matiere->select();
+
+        $note->eleve = $eleve->getNom()." ".$eleve->getPrenom();
+        $note->matiere = $matiere->getMatiere();
     }
 
-    foreach($datas["notes"] as &$not){
+    // $datas['eleves'] -> Tous les élèves (pour select)
+    $eleve = new Utilisateurs();
+    $eleve->setRole("Enfant");
+    $datas["eleves"] = $eleve->selectByRole();
 
-        $not->setNote(htmlspecialchars($not->getNote()));
-        $not->setCoeff(htmlspecialchars($not->getCoeff()));
-    }
-
-    $user = new Utilisateurs();
-    $user->setIdUtilisateur($_SESSION["id"]);
-    $datas["users"]= $user->selectAll();
-    
-    if(isset($_GET['id'])) {
-        $not->setIdNote($_GET['id']);
-        $note = $not->select();
-        $datas["note"] = $note;
-    }
-
-    foreach($datas["users"] as &$com){
-        $com->setPseudo(htmlspecialchars($com->getPseudo()));
-        $com->setPassword(htmlspecialchars($com->getPassword()));
-        $com->setNom(htmlspecialchars($com->getNom()));
-        $com->setPrenom(htmlspecialchars($com->getPrenom()));
-        $com->setAdresse(htmlspecialchars($com->getAdresse()));
-    }
-
+    // $datas['matieres'] -> Toutes les matieres (pour select)
     $matiere = new Matiere();
-    $datas["matiere"]= $matiere->selectAll();
+    $datas["matieres"] = $matiere->selectAll();
 
+    // CAS 2 : Mise à jour
+    // $datas['note'] -> La note à mettre à jour
+    if(isset($_GET["id"])) {
+        $note = new Notes();
+        $note->setIdNote($_GET['id']);
+        $datas["note"] = $note->select();
+
+        $eleve = new Utilisateurs();
+        $eleve->setIdUtilisateur($note->getIdEleve());
+        $eleve->select();
+        $datas["note"]->eleve = $eleve->getNom()." ".$eleve->getPrenom();
+
+        $matiere = new Matiere();
+        $matiere->setIdMatiere($note->getIdMatiere());
+        $matiere->select();
+        $datas["note"]->matiere = $matiere->getMatiere();
+    }
+    
     var_dump($datas);
-
     return ["template" => "allnotes.php", "datas" => $datas];
 };
 
